@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">FireNote</string>
     <string name="new_note_button_description">Create a new note</string>
+    <string name="delete_button_description">Delete this note</string>
+    <string name="save_button_description">Save this note</string>
 </resources>

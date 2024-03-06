@@ -9,6 +9,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import de.oelkers.firenote.persistence.NoteRepository
 
 const val TITLE_ARG = "NOTE_TITLE"
 const val CONTENT_ARG = "NOTE_CONTENT"
@@ -18,21 +19,24 @@ const val RESULT_DELETED = Activity.RESULT_FIRST_USER + 1
 
 class MainActivity : AppCompatActivity() {
 
-    private val notes = arrayListOf(
-        Note("Note1", "Hello World!"),
-        Note("SuperLong", "This is a super long note where the text does not fit into one line!"),
-        Note("AnotherNote", "How many notes are you writing?")
-    )
-
+    private lateinit var notes: MutableList<Note>
     private lateinit var adapter: NoteAdapter
+    private lateinit var repository: NoteRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        repository = NoteRepository(baseContext)
+        notes = repository.readAllNotes()
         val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this::onDetailsFinish)
         findViewById<FloatingActionButton>(R.id.newNoteButton).setOnClickListener { onNewNoteClick(launcher) }
         adapter = NoteAdapter(notes) { position -> onNoteClick(position, launcher) }
         findViewById<RecyclerView>(R.id.notesView).adapter = adapter
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        repository.saveAllNotes(notes)
     }
 
     private fun onNewNoteClick(launcher: ActivityResultLauncher<Intent>) {
