@@ -1,3 +1,5 @@
 package de.oelkers.firenote
 
-data class Note(var title: String, var content: String)
+import java.io.Serializable
+
+data class Note(var title: String, var content: String) : Serializable
