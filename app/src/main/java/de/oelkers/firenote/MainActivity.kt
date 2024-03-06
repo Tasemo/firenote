@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.oelkers.firenote.persistence.NoteRepository
+import java.time.LocalDateTime
 
 const val TITLE_ARG = "NOTE_TITLE"
 const val CONTENT_ARG = "NOTE_CONTENT"
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             val title = result.data!!.getStringExtra(TITLE_ARG)!!
             val content = result.data!!.getStringExtra(CONTENT_ARG)!!
             if (position == NOTE_POSITION_NOT_FOUND) {
-                notes.add(Note(title, content))
+                notes.add(Note(title, content, LocalDateTime.now()))
                 adapter.notifyItemInserted(notes.size - 1)
             } else {
                 notes[position].title = title

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.time.format.DateTimeFormatter
 
 class NoteAdapter(
     private val notes: List<Note>,
@@ -15,10 +16,13 @@ class NoteAdapter(
 
         private val title = view.findViewById<TextView>(R.id.titleText)
         private val content = view.findViewById<TextView>(R.id.contentText)
+        private val created = view.findViewById<TextView>(R.id.createdText)
+        private val dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
 
         fun bind(note: Note) {
             title.text = note.title
             content.text = note.content
+            created.text = note.created.format(dateFormatter)
         }
     }
 
