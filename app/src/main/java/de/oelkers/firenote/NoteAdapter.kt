@@ -5,9 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import de.oelkers.firenote.models.Note
 
-class NoteAdapter(private val notes: List<Note>) : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
+class NoteAdapter(
+    private val notes: List<Note>,
+    private val onClick: (Int) -> Unit
+) : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
 
     class NoteHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -22,13 +24,14 @@ class NoteAdapter(private val notes: List<Note>) : RecyclerView.Adapter<NoteAdap
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): NoteHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.note_entry, viewGroup, false)
-        return NoteHolder(view)
+        val holder = NoteHolder(view)
+        view.setOnClickListener { onClick(holder.layoutPosition) }
+        return holder
     }
 
     override fun getItemCount() = notes.size
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
-        println(notes[position])
         holder.bind(notes[position])
     }
 }
