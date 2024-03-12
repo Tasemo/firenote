@@ -6,6 +6,8 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +34,7 @@ class NoteDetailsActivity : AppCompatActivity() {
     private lateinit var player: MediaPlayer
     private lateinit var playButton: ImageButton
     private lateinit var recordButton: ImageButton
+    private lateinit var recordButtonBackground: Drawable
     private var audioFile: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,6 +95,7 @@ class NoteDetailsActivity : AppCompatActivity() {
                 stop()
                 release()
             }
+            onRecordingStopped()
         } else {
             recorder = MediaRecorder().apply {
                 setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -101,21 +105,44 @@ class NoteDetailsActivity : AppCompatActivity() {
                 prepare()
                 start()
             }
+            onRecordingStarted()
         }
-        isRecording = !isRecording
     }
 
     private fun playAudio(fileName: String) {
         if (isPlaying) {
             player.stop()
             player.release()
+            onAudioCompleted()
         } else {
             player = MediaPlayer().apply {
                 setDataSource(fileName)
+                setOnCompletionListener { onAudioCompleted() }
                 prepare()
                 start()
             }
+            onAudioStarted()
         }
-        isPlaying = !isPlaying
+    }
+
+    private fun onRecordingStarted() {
+        recordButtonBackground = recordButton.background
+        recordButton.setBackgroundColor(getColor(android.R.color.holo_red_dark))
+        isRecording = true
+    }
+
+    private fun onRecordingStopped() {
+        recordButton.background = recordButtonBackground
+        isRecording = false
+    }
+
+    private fun onAudioStarted() {
+        playButton.setImageResource(android.R.drawable.ic_media_pause)
+        isPlaying = true
+    }
+
+    private fun onAudioCompleted() {
+        playButton.setImageResource(android.R.drawable.ic_media_play)
+        isPlaying = false
     }
 }

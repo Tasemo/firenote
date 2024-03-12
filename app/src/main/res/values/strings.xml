@@ -3,4 +3,6 @@
     <string name="new_note_button_description">Create a new note</string>
     <string name="delete_button_description">Delete this note</string>
     <string name="save_button_description">Save this note</string>
+    <string name="record_button_description">Record a voice message</string>
+    <string name="play_button_description">Play this voice message</string>
 </resources>
