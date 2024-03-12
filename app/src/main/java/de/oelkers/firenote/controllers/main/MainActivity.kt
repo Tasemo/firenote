@@ -1,4 +1,4 @@
-package de.oelkers.firenote
+package de.oelkers.firenote.controllers.main
 
 import android.app.Activity
 import android.content.Intent
@@ -9,11 +9,15 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import de.oelkers.firenote.R
+import de.oelkers.firenote.controllers.detail.NoteDetailsActivity
+import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.persistence.NoteRepository
 import java.time.LocalDateTime
 
 const val TITLE_ARG = "NOTE_TITLE"
 const val CONTENT_ARG = "NOTE_CONTENT"
+const val AUDIO_FILE_ARG = "NOTE_AUDIO_FILE"
 const val NOTE_POSITION_ARG = "NOTE_POSITION"
 const val NOTE_POSITION_NOT_FOUND = -1
 const val RESULT_DELETED = Activity.RESULT_FIRST_USER + 1
@@ -35,8 +39,8 @@ class MainActivity : AppCompatActivity() {
         findViewById<RecyclerView>(R.id.notesView).adapter = adapter
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
         repository.saveAllNotes(notes)
     }
 
@@ -50,16 +54,18 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(NOTE_POSITION_ARG, position)
         intent.putExtra(TITLE_ARG, notes[position].title)
         intent.putExtra(CONTENT_ARG, notes[position].content)
+        intent.putExtra(AUDIO_FILE_ARG, notes[position].audioPath)
         launcher.launch(intent)
     }
 
     private fun onDetailsFinish(result: ActivityResult) {
         val position = result.data!!.getIntExtra(NOTE_POSITION_ARG, NOTE_POSITION_NOT_FOUND)
         if (result.resultCode == Activity.RESULT_OK) {
-            val title = result.data!!.getStringExtra(TITLE_ARG)!!
-            val content = result.data!!.getStringExtra(CONTENT_ARG)!!
+            val title = result.data!!.getStringExtra(TITLE_ARG)
+            val content = result.data!!.getStringExtra(CONTENT_ARG)
+            val audioFile = result.data!!.getStringExtra(AUDIO_FILE_ARG)
             if (position == NOTE_POSITION_NOT_FOUND) {
-                notes.add(Note(title, content, LocalDateTime.now()))
+                notes.add(Note(title, content, LocalDateTime.now(), audioFile))
                 adapter.notifyItemInserted(notes.size - 1)
             } else {
                 notes[position].title = title
@@ -67,8 +73,10 @@ class MainActivity : AppCompatActivity() {
                 adapter.notifyItemChanged(position)
             }
         } else if (result.resultCode == RESULT_DELETED) {
-            notes.removeAt(position)
-            adapter.notifyItemRemoved(position)
+            if (position != NOTE_POSITION_NOT_FOUND) {
+                notes.removeAt(position)
+                adapter.notifyItemRemoved(position)
+            }
         }
     }
 }

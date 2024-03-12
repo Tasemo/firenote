@@ -1,10 +1,12 @@
-package de.oelkers.firenote
+package de.oelkers.firenote.controllers.main
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import de.oelkers.firenote.R
+import de.oelkers.firenote.models.Note
 import java.time.format.DateTimeFormatter
 
 class NoteAdapter(
@@ -22,7 +24,7 @@ class NoteAdapter(
         fun bind(note: Note) {
             title.text = note.title
             content.text = note.content
-            created.text = note.created.format(dateFormatter)
+            created.text = note.created?.format(dateFormatter)
         }
     }
 
