@@ -1,12 +1,13 @@
-package de.oelkers.firenote.controllers.overview
+package de.oelkers.firenote.controllers.main
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.oelkers.firenote.R
@@ -22,26 +23,26 @@ const val NOTE_POSITION_ARG = "NOTE_POSITION"
 const val NOTE_POSITION_NOT_FOUND = -1
 const val RESULT_DELETED = Activity.RESULT_FIRST_USER + 1
 
-class NoteListActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
-    private lateinit var notes: MutableList<Note>
     private lateinit var adapter: NoteAdapter
     private lateinit var repository: NoteRepository
+    private val viewModel: NoteViewModel by viewModels { NoteViewModelFactory(repository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_list)
         repository = NoteRepository(baseContext)
-        notes = repository.readAllNotes()
         val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this::onDetailsFinish)
         findViewById<FloatingActionButton>(R.id.newNoteButton).setOnClickListener { onNewNoteClick(launcher) }
-        adapter = NoteAdapter(notes) { position -> onNoteClick(position, launcher) }
+        adapter = NoteAdapter(viewModel.notes.value!!) { position -> onNoteClick(position, launcher) }
+        viewModel.notes .observe(this, adapter::submitList)
         findViewById<RecyclerView>(R.id.notesView).adapter = adapter
     }
 
     override fun onPause() {
         super.onPause()
-        repository.saveAllNotes(notes)
+        repository.saveAllNotes(viewModel.notes.value!!)
     }
 
     private fun onNewNoteClick(launcher: ActivityResultLauncher<Intent>) {
@@ -51,10 +52,11 @@ class NoteListActivity : AppCompatActivity() {
 
     private fun onNoteClick(position: Int, launcher: ActivityResultLauncher<Intent>) {
         val intent = Intent(this, NoteDetailsActivity::class.java)
+        val note = viewModel.notes.value!![position]
         intent.putExtra(NOTE_POSITION_ARG, position)
-        intent.putExtra(TITLE_ARG, notes[position].title)
-        intent.putExtra(CONTENT_ARG, notes[position].content)
-        intent.putExtra(AUDIO_FILE_ARG, notes[position].audioPath)
+        intent.putExtra(TITLE_ARG, note.title)
+        intent.putExtra(CONTENT_ARG, note.content)
+        intent.putExtra(AUDIO_FILE_ARG, note.audioPath)
         launcher.launch(intent)
     }
 
@@ -64,18 +66,15 @@ class NoteListActivity : AppCompatActivity() {
             val title = result.data!!.getStringExtra(TITLE_ARG)
             val content = result.data!!.getStringExtra(CONTENT_ARG)
             val audioFile = result.data!!.getStringExtra(AUDIO_FILE_ARG)
+            val newNote = Note(title, content, LocalDateTime.now(), audioFile)
             if (position == NOTE_POSITION_NOT_FOUND) {
-                notes.add(Note(title, content, LocalDateTime.now(), audioFile))
-                adapter.notifyItemInserted(notes.size - 1)
+                viewModel.addNote(newNote)
             } else {
-                notes[position].title = title
-                notes[position].content = content
-                adapter.notifyItemChanged(position)
+                viewModel.updateNote(newNote, position)
             }
         } else if (result.resultCode == RESULT_DELETED) {
             if (position != NOTE_POSITION_NOT_FOUND) {
-                notes.removeAt(position)
-                adapter.notifyItemRemoved(position)
+                viewModel.deleteNote(position)
             }
         }
     }

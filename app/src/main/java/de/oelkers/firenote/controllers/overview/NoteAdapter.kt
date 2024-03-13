@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import de.oelkers.firenote.R
 import de.oelkers.firenote.models.Note
@@ -12,7 +14,7 @@ import java.time.format.DateTimeFormatter
 class NoteAdapter(
     private val notes: List<Note>,
     private val onClick: (Int) -> Unit
-) : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
+) : ListAdapter<Note, NoteAdapter.NoteHolder>(NoteDiffCallback) {
 
     class NoteHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -39,5 +41,15 @@ class NoteAdapter(
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
         holder.bind(notes[position])
+    }
+
+    companion object NoteDiffCallback : DiffUtil.ItemCallback<Note>() {
+        override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
+            return oldItem == newItem
+        }
     }
 }
