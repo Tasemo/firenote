@@ -1,4 +1,4 @@
-package de.oelkers.firenote.controllers.main
+package de.oelkers.firenote.controllers.overview
 
 import android.app.Activity
 import android.content.Intent
@@ -22,7 +22,7 @@ const val NOTE_POSITION_ARG = "NOTE_POSITION"
 const val NOTE_POSITION_NOT_FOUND = -1
 const val RESULT_DELETED = Activity.RESULT_FIRST_USER + 1
 
-class MainActivity : AppCompatActivity() {
+class NoteListActivity : AppCompatActivity() {
 
     private lateinit var notes: MutableList<Note>
     private lateinit var adapter: NoteAdapter
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_note_list)
         repository = NoteRepository(baseContext)
         notes = repository.readAllNotes()
         val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this::onDetailsFinish)

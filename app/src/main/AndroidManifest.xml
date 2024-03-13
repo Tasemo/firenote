@@ -16,7 +16,7 @@
                 android:name=".controllers.detail.NoteDetailsActivity"
                 android:exported="false"/>
         <activity
-                android:name=".controllers.main.MainActivity"
+                android:name=".controllers.overview.NoteListActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

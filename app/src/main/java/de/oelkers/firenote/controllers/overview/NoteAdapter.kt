@@ -1,4 +1,4 @@
-package de.oelkers.firenote.controllers.main
+package de.oelkers.firenote.controllers.overview
 
 import android.view.LayoutInflater
 import android.view.View
