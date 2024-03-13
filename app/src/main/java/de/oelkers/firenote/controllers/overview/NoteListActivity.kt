@@ -3,6 +3,7 @@ package de.oelkers.firenote.controllers.overview
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,10 +17,8 @@ import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.persistence.NoteRepository
 import java.time.LocalDateTime
 
-const val TITLE_ARG = "NOTE_TITLE"
-const val CONTENT_ARG = "NOTE_CONTENT"
-const val AUDIO_FILE_ARG = "NOTE_AUDIO_FILE"
-const val NOTE_POSITION_ARG = "NOTE_POSITION"
+const val NOTE_ARG = "NOTE_ARG"
+const val NOTE_POSITION_ARG = "NOTE_POSITION_ARG"
 const val NOTE_POSITION_NOT_FOUND = -1
 const val RESULT_DELETED = Activity.RESULT_FIRST_USER + 1
 
@@ -54,19 +53,14 @@ class NoteListActivity : AppCompatActivity() {
         val intent = Intent(this, NoteDetailsActivity::class.java)
         val note = viewModel.notes[position]
         intent.putExtra(NOTE_POSITION_ARG, position)
-        intent.putExtra(TITLE_ARG, note.title)
-        intent.putExtra(CONTENT_ARG, note.content)
-        intent.putExtra(AUDIO_FILE_ARG, note.audioPath)
+        intent.putExtra(NOTE_ARG, note as Parcelable)
         launcher.launch(intent)
     }
 
     private fun onDetailsFinish(result: ActivityResult) {
         val position = result.data!!.getIntExtra(NOTE_POSITION_ARG, NOTE_POSITION_NOT_FOUND)
         if (result.resultCode == Activity.RESULT_OK) {
-            val title = result.data!!.getStringExtra(TITLE_ARG)
-            val content = result.data!!.getStringExtra(CONTENT_ARG)
-            val audioFile = result.data!!.getStringExtra(AUDIO_FILE_ARG)
-            val newNote = Note(title, content, LocalDateTime.now(), audioFile)
+            val newNote: Note = result.data!!.extras?.getParcelable(NOTE_ARG)!!
             if (position == NOTE_POSITION_NOT_FOUND) {
                 viewModel.addNote(newNote)
             } else {

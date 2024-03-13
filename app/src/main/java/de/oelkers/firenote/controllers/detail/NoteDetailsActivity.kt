@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
@@ -18,11 +19,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import de.oelkers.firenote.R
-import de.oelkers.firenote.controllers.overview.AUDIO_FILE_ARG
-import de.oelkers.firenote.controllers.overview.CONTENT_ARG
-import de.oelkers.firenote.controllers.overview.RESULT_DELETED
-import de.oelkers.firenote.controllers.overview.TITLE_ARG
+import de.oelkers.firenote.controllers.overview.*
+import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.persistence.AUDIO_DIRECTORY
+import java.time.LocalDateTime
 import java.util.*
 
 class NoteDetailsActivity : AppCompatActivity() {
@@ -45,18 +45,19 @@ class NoteDetailsActivity : AppCompatActivity() {
         val deleteButton = findViewById<ImageButton>(R.id.deleteButton)
         recordButton = findViewById(R.id.recordButton)
         playButton = findViewById(R.id.playButton)
-
-        editTitle.setText(intent.getStringExtra(TITLE_ARG))
-        editContent.setText(intent.getStringExtra(CONTENT_ARG))
-        audioFile = intent.getStringExtra(AUDIO_FILE_ARG)
+        val note = intent.getParcelableExtra(NOTE_ARG) ?: Note(UUID.randomUUID().toString(), created = LocalDateTime.now())
+        editTitle.setText(note.title)
+        editContent.setText(note.content)
+        audioFile = note.audioPath
         if (audioFile == null) {
             playButton.visibility = View.GONE
         }
         saveButton.setOnClickListener {
             val result = Intent(intent)
-            result.putExtra(TITLE_ARG, editTitle.text.toString())
-            result.putExtra(CONTENT_ARG, editContent.text.toString())
-            result.putExtra(AUDIO_FILE_ARG, audioFile)
+            note.title = editTitle.text.toString()
+            note.content = editContent.text.toString()
+            note.audioPath = audioFile
+            result.putExtra(NOTE_ARG, note as Parcelable)
             setResult(Activity.RESULT_OK, result)
             finish()
         }
