@@ -9,13 +9,13 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.media.MediaRecorder
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import de.oelkers.firenote.R
 import de.oelkers.firenote.controllers.overview.AUDIO_FILE_ARG
@@ -23,7 +23,7 @@ import de.oelkers.firenote.controllers.overview.CONTENT_ARG
 import de.oelkers.firenote.controllers.overview.RESULT_DELETED
 import de.oelkers.firenote.controllers.overview.TITLE_ARG
 import de.oelkers.firenote.persistence.AUDIO_DIRECTORY
-import java.util.UUID
+import java.util.*
 
 class NoteDetailsActivity : AppCompatActivity() {
 

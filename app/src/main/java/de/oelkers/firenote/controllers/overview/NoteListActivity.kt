@@ -1,4 +1,4 @@
-package de.oelkers.firenote.controllers.main
+package de.oelkers.firenote.controllers.overview
 
 import android.app.Activity
 import android.content.Intent
@@ -23,7 +23,7 @@ const val NOTE_POSITION_ARG = "NOTE_POSITION"
 const val NOTE_POSITION_NOT_FOUND = -1
 const val RESULT_DELETED = Activity.RESULT_FIRST_USER + 1
 
-class MainActivity : AppCompatActivity() {
+class NoteListActivity : AppCompatActivity() {
 
     private lateinit var adapter: NoteAdapter
     private lateinit var repository: NoteRepository
@@ -35,14 +35,14 @@ class MainActivity : AppCompatActivity() {
         repository = NoteRepository(baseContext)
         val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this::onDetailsFinish)
         findViewById<FloatingActionButton>(R.id.newNoteButton).setOnClickListener { onNewNoteClick(launcher) }
-        adapter = NoteAdapter(viewModel.notes.value!!) { position -> onNoteClick(position, launcher) }
-        viewModel.notes .observe(this, adapter::submitList)
+        adapter = NoteAdapter(viewModel) { position -> onNoteClick(position, launcher) }
+        viewModel.notesLiveData.observe(this, adapter::submitList)
         findViewById<RecyclerView>(R.id.notesView).adapter = adapter
     }
 
     override fun onPause() {
         super.onPause()
-        repository.saveAllNotes(viewModel.notes.value!!)
+        repository.saveAllNotes(viewModel.notes)
     }
 
     private fun onNewNoteClick(launcher: ActivityResultLauncher<Intent>) {
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onNoteClick(position: Int, launcher: ActivityResultLauncher<Intent>) {
         val intent = Intent(this, NoteDetailsActivity::class.java)
-        val note = viewModel.notes.value!![position]
+        val note = viewModel.notes[position]
         intent.putExtra(NOTE_POSITION_ARG, position)
         intent.putExtra(TITLE_ARG, note.title)
         intent.putExtra(CONTENT_ARG, note.content)

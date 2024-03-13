@@ -1,4 +1,4 @@
-package de.oelkers.firenote.controllers.main
+package de.oelkers.firenote.controllers.overview
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,30 +8,26 @@ import de.oelkers.firenote.persistence.NoteRepository
 
 class NoteViewModel(repository: NoteRepository) : ViewModel() {
 
-    val notes = MutableLiveData<List<Note>>(repository.readAllNotes())
+    val notesLiveData = MutableLiveData<List<Note>>(repository.readAllNotes())
+    val notes: List<Note>
+        get() = notesLiveData.value!!
 
     fun addNote(note: Note) {
-        perform {
-            it.add(note)
-        }
+        perform { it.add(note) }
     }
 
     fun deleteNote(index: Int) {
-        perform {
-            it.removeAt(index)
-        }
+        perform { it.removeAt(index) }
     }
 
     fun updateNote(note: Note, index: Int) {
-        perform {
-            it[index] = note
-        }
+        perform { it[index] = note }
     }
 
     private fun perform(task: (list: MutableList<Note>) -> Unit) {
-        val newList = notes.value?.toMutableList() ?: mutableListOf()
+        val newList = notes.toMutableList()
         task(newList)
-        notes.postValue(newList)
+        notesLiveData.postValue(newList)
     }
 }
 

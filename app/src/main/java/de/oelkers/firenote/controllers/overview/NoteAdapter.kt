@@ -12,7 +12,7 @@ import de.oelkers.firenote.models.Note
 import java.time.format.DateTimeFormatter
 
 class NoteAdapter(
-    private val notes: List<Note>,
+    private val viewModel: NoteViewModel,
     private val onClick: (Int) -> Unit
 ) : ListAdapter<Note, NoteAdapter.NoteHolder>(NoteDiffCallback) {
 
@@ -37,10 +37,10 @@ class NoteAdapter(
         return holder
     }
 
-    override fun getItemCount() = notes.size
+    override fun getItemCount() = viewModel.notes.size
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
-        holder.bind(notes[position])
+        holder.bind(viewModel.notes[position])
     }
 
     companion object NoteDiffCallback : DiffUtil.ItemCallback<Note>() {
