@@ -8,6 +8,8 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting.Companion.PRIVATE
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.oelkers.firenote.R
@@ -57,8 +59,9 @@ class NoteListActivity : AppBarActivity() {
         launcher.launch(intent)
     }
 
-    private fun onDetailsFinish(result: ActivityResult) {
-        val position = result.data!!.getIntExtra(NOTE_POSITION_ARG, NOTE_POSITION_NOT_FOUND)
+    @VisibleForTesting(otherwise = PRIVATE)
+    internal fun onDetailsFinish(result: ActivityResult) {
+        val position = result.data?.getIntExtra(NOTE_POSITION_ARG, NOTE_POSITION_NOT_FOUND) ?: NOTE_POSITION_NOT_FOUND
         if (result.resultCode == Activity.RESULT_OK) {
             val newNote: Note = result.data!!.extras?.getParcelable(NOTE_ARG)!!
             if (position == NOTE_POSITION_NOT_FOUND) {
