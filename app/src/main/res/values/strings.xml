@@ -5,4 +5,5 @@
     <string name="save_button_description">Save this note</string>
     <string name="record_button_description">Record a voice message</string>
     <string name="play_button_description">Play this voice message</string>
+    <string name="settings">Settings</string>
 </resources>

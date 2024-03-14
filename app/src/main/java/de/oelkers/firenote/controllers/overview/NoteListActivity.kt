@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.Menu
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,7 +16,6 @@ import de.oelkers.firenote.R
 import de.oelkers.firenote.controllers.detail.NoteDetailsActivity
 import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.persistence.NoteRepository
-import java.time.LocalDateTime
 
 const val NOTE_ARG = "NOTE_ARG"
 const val NOTE_POSITION_ARG = "NOTE_POSITION_ARG"
@@ -31,12 +31,18 @@ class NoteListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_list)
+        setSupportActionBar(findViewById(R.id.toolbar))
         repository = NoteRepository(baseContext)
         val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this::onDetailsFinish)
         findViewById<FloatingActionButton>(R.id.newNoteButton).setOnClickListener { onNewNoteClick(launcher) }
         adapter = NoteAdapter(viewModel) { position -> onNoteClick(position, launcher) }
         viewModel.notesLiveData.observe(this, adapter::submitList)
         findViewById<RecyclerView>(R.id.notesView).adapter = adapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onPause() {
