@@ -7,17 +7,7 @@
         android:layout_height="match_parent"
         tools:context=".controllers.overview.NoteListActivity">
 
-    <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
+    <include layout="@layout/default_toolbar"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notesView"

@@ -18,8 +18,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.preference.PreferenceManager
 import de.oelkers.firenote.R
-import de.oelkers.firenote.controllers.overview.*
+import de.oelkers.firenote.controllers.overview.NOTE_ARG
+import de.oelkers.firenote.controllers.overview.RESULT_DELETED
 import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.persistence.AUDIO_DIRECTORY
 import java.time.LocalDateTime
@@ -51,6 +53,11 @@ class NoteDetailsActivity : AppCompatActivity() {
         audioFile = note.audioPath
         if (audioFile == null) {
             playButton.visibility = View.GONE
+        }
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        if (preferences.getBoolean("allow_voice_messages", false)) {
+            playButton.visibility = View.GONE
+            recordButton.visibility = View.GONE
         }
         saveButton.setOnClickListener {
             val result = Intent(intent)
