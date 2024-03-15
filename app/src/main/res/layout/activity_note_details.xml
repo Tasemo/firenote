@@ -27,15 +27,23 @@
             <ImageButton
                     android:src="@android:drawable/ic_menu_delete"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/deleteButton"
                     android:layout_weight="1"
                     android:contentDescription="@string/delete_button_description"/>
 
             <ImageButton
+                    android:src="@android:drawable/ic_lock_idle_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/alarmButton"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/alarm_button_description"/>
+
+            <ImageButton
                     android:src="@android:drawable/ic_menu_save"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/saveButton"
                     android:layout_weight="1"
                     android:contentDescription="@string/save_button_description"/>

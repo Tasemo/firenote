@@ -20,8 +20,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import de.oelkers.firenote.R
+import de.oelkers.firenote.controllers.alarm.NoteAlarmActivity
 import de.oelkers.firenote.controllers.overview.NOTE_ARG
 import de.oelkers.firenote.controllers.overview.RESULT_DELETED
+import de.oelkers.firenote.controllers.settings.SettingsActivity
 import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.persistence.AUDIO_DIRECTORY
 import java.time.LocalDateTime
@@ -45,6 +47,7 @@ class NoteDetailsActivity : AppCompatActivity() {
         val editContent = findViewById<EditText>(R.id.editContent)
         val saveButton = findViewById<ImageButton>(R.id.saveButton)
         val deleteButton = findViewById<ImageButton>(R.id.deleteButton)
+        val alarmButton = findViewById<ImageButton>(R.id.alarmButton)
         recordButton = findViewById(R.id.recordButton)
         playButton = findViewById(R.id.playButton)
         val note = intent.getParcelableExtra(NOTE_ARG) ?: Note(UUID.randomUUID().toString(), created = LocalDateTime.now())
@@ -59,6 +62,7 @@ class NoteDetailsActivity : AppCompatActivity() {
             playButton.visibility = View.GONE
             recordButton.visibility = View.GONE
         }
+        alarmButton.setOnClickListener { onAlarmClick() }
         saveButton.setOnClickListener {
             val result = Intent(intent)
             note.title = editTitle.text.toString()
@@ -85,6 +89,11 @@ class NoteDetailsActivity : AppCompatActivity() {
         }
         recordButton.setOnClickListener { onRecordClick(baseContext, audioFile, permissionLauncher) }
         playButton.setOnClickListener { playAudio(audioFile!!) }
+    }
+
+    private fun onAlarmClick() {
+        val intent = Intent(this, NoteAlarmActivity::class.java)
+        startActivity(intent)
     }
 
     private fun onRecordClick(context: Context, fileName: String?, launcher: ActivityResultLauncher<String>) {
