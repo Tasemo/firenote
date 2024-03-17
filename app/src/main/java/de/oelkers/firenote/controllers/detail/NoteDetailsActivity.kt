@@ -16,20 +16,19 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import de.oelkers.firenote.R
 import de.oelkers.firenote.controllers.alarm.NoteAlarmActivity
 import de.oelkers.firenote.controllers.overview.NOTE_ARG
 import de.oelkers.firenote.controllers.overview.RESULT_DELETED
-import de.oelkers.firenote.controllers.settings.SettingsActivity
 import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.persistence.AUDIO_DIRECTORY
+import de.oelkers.firenote.util.AppBarActivity
 import java.time.LocalDateTime
 import java.util.*
 
-class NoteDetailsActivity : AppCompatActivity() {
+class NoteDetailsActivity : AppBarActivity() {
 
     private var isRecording: Boolean = false
     private lateinit var recorder: MediaRecorder
