@@ -8,4 +8,6 @@
     <string name="play_button_description">Play this voice message</string>
     <string name="settings">Settings</string>
     <string name="general_settings">General</string>
+    <string name="alarm_initial_text">Set a date and time</string>
+    <string name="alarm_cancel_text">Cancel</string>
 </resources>

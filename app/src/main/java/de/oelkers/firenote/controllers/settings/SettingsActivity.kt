@@ -7,7 +7,6 @@ import androidx.preference.PreferenceFragmentCompat
 import de.oelkers.firenote.R
 import de.oelkers.firenote.util.AppBarActivity
 
-
 class SettingsActivity : AppBarActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -10,15 +10,14 @@
     <include layout="@layout/default_toolbar"/>
 
     <Button
-            android:text="Button"
+            android:text="@string/alarm_initial_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/timerButton"/>
 
     <Button
-            android:text="Button"
+            android:text="@string/alarm_cancel_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/clearButton"/>
-
 </LinearLayout>
