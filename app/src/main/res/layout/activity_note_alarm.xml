@@ -9,15 +9,17 @@
 
     <include layout="@layout/default_toolbar"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
             android:text="@string/alarm_initial_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:id="@+id/timerButton"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
             android:text="@string/alarm_cancel_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:id="@+id/clearButton"/>
 </LinearLayout>

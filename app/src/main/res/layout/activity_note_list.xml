@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,19 +13,16 @@
             android:id="@+id/notesView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layoutManager="LinearLayoutManager"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/newNoteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            android:src="@android:drawable/ic_input_add"
-            android:clickable="true"
-            android:focusable="true"
+            app:srcCompat="@android:drawable/ic_input_add"
             android:contentDescription="@string/new_note_button_description"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

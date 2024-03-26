@@ -4,6 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".controllers.detail.NoteDetailsActivity"
         android:orientation="vertical">
 
@@ -19,48 +20,75 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:inputType="text"
-                    android:ems="10"
-                    android:id="@+id/editTitle"
-                    android:layout_weight="1"/>
-
-            <ImageButton
-                    android:src="@android:drawable/ic_menu_delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:id="@+id/deleteButton"
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:hint="@string/title_hint"
+                    android:layout_margin="4dp"
+                    app:endIconMode="clear_text">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTitle"
+                        android:inputType="text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                    app:icon="@android:drawable/ic_menu_delete"
+                    app:iconTint="@null"
+                    app:iconSize="30dp"
+                    app:iconPadding="0dp"
+                    app:iconGravity="textStart"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="4dp"
+                    android:id="@+id/deleteButton"
                     android:contentDescription="@string/delete_button_description"/>
 
-            <ImageButton
-                    android:src="@android:drawable/ic_lock_idle_alarm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+            <com.google.android.material.button.MaterialButton
+                    app:icon="@android:drawable/ic_lock_idle_alarm"
+                    app:iconTint="@null"
+                    app:iconSize="24dp"
+                    app:iconPadding="0dp"
+                    app:iconGravity="textStart"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="4dp"
                     android:id="@+id/alarmButton"
-                    android:layout_weight="1"
                     android:contentDescription="@string/alarm_button_description"/>
 
-            <ImageButton
-                    android:src="@android:drawable/ic_menu_save"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+            <com.google.android.material.button.MaterialButton
+                    app:icon="@android:drawable/ic_menu_save"
+                    app:iconTint="@null"
+                    app:iconSize="30dp"
+                    app:iconPadding="0dp"
+                    app:iconGravity="textStart"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="4dp"
                     android:id="@+id/saveButton"
-                    android:layout_weight="1"
                     android:contentDescription="@string/save_button_description"/>
 
         </LinearLayout>
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textMultiLine"
-                android:gravity="start|top"
-                android:ems="10"
-                android:id="@+id/editContent"
-                android:layout_weight="1"/>
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                app:endIconMode="clear_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editContent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
                 android:orientation="horizontal"
@@ -68,17 +96,23 @@
                 android:layout_height="wrap_content">
 
             <de.oelkers.firenote.controllers.detail.AudioRecorderButton
-                    android:src="@android:drawable/ic_btn_speak_now"
+                    app:icon="@android:drawable/ic_btn_speak_now"
+                    app:iconPadding="0dp"
+                    app:iconGravity="textStart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
                     android:id="@+id/recordButton"
                     android:layout_weight="1"
                     android:contentDescription="@string/record_button_description"/>
 
             <de.oelkers.firenote.controllers.detail.AudioPlayerButton
-                    android:src="@android:drawable/ic_media_play"
+                    app:icon="@android:drawable/ic_media_play"
+                    app:iconPadding="0dp"
+                    app:iconGravity="textStart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
                     android:id="@+id/playButton"
                     android:layout_weight="1"
                     android:contentDescription="@string/play_button_description"/>

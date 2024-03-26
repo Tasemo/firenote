@@ -3,9 +3,11 @@ package de.oelkers.firenote.controllers.detail
 import android.content.Context
 import android.media.MediaPlayer
 import android.util.AttributeSet
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageButton
+import com.google.android.material.button.MaterialButton
 
-class AudioPlayerButton : AppCompatImageButton {
+class AudioPlayerButton : MaterialButton {
 
     private var isPlaying: Boolean = false
     private lateinit var player: MediaPlayer
@@ -37,12 +39,12 @@ class AudioPlayerButton : AppCompatImageButton {
     }
 
     private fun onAudioStarted() {
-        setImageResource(android.R.drawable.ic_media_pause)
+        icon = AppCompatResources.getDrawable(context, android.R.drawable.ic_media_pause)
         isPlaying = true
     }
 
     private fun onAudioCompleted() {
-        setImageResource(android.R.drawable.ic_media_play)
+        icon = AppCompatResources.getDrawable(context, android.R.drawable.ic_media_play)
         isPlaying = false
     }
 }

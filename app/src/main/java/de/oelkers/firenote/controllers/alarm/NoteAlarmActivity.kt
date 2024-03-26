@@ -27,7 +27,7 @@ const val RECEIVER_ARG = "ALARM_RECEIVER"
 
 class NoteAlarmActivity : AppBarActivity(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    private lateinit var pendingIntent: PendingIntent
+    private var pendingIntent: PendingIntent? = null
     private val alarmDateTime: Calendar = Calendar.getInstance()
     private lateinit var alarmButton: Button
     private lateinit var initialAlarmText: CharSequence
@@ -64,12 +64,12 @@ class NoteAlarmActivity : AppBarActivity(), DatePickerDialog.OnDateSetListener, 
         pendingIntent = PendingIntent.getBroadcast(baseContext, 0, Intent(RECEIVER_ARG), flags)
         if (VERSION.SDK_INT >= VERSION_CODES.S) {
             if (alarmManager.canScheduleExactAlarms()) {
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmDateTime.timeInMillis, pendingIntent)
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmDateTime.timeInMillis, pendingIntent!!)
             } else {
-                alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmDateTime.timeInMillis, pendingIntent)
+                alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmDateTime.timeInMillis, pendingIntent!!)
             }
         } else {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmDateTime.timeInMillis, pendingIntent)
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmDateTime.timeInMillis, pendingIntent!!)
         }
     }
 
@@ -78,7 +78,7 @@ class NoteAlarmActivity : AppBarActivity(), DatePickerDialog.OnDateSetListener, 
     }
 
     private fun onCancelClick() {
-        pendingIntent.cancel()
+        pendingIntent?.cancel()
         alarmButton.text = initialAlarmText
     }
 

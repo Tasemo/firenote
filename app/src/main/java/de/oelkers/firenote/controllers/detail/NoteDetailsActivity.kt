@@ -1,29 +1,19 @@
 package de.oelkers.firenote.controllers.detail
 
-import android.Manifest
 import android.app.Activity
-import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
-import android.media.MediaPlayer
-import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import de.oelkers.firenote.R
 import de.oelkers.firenote.controllers.alarm.NoteAlarmActivity
 import de.oelkers.firenote.controllers.overview.NOTE_ARG
 import de.oelkers.firenote.controllers.overview.RESULT_DELETED
 import de.oelkers.firenote.models.Note
-import de.oelkers.firenote.persistence.AUDIO_DIRECTORY
 import de.oelkers.firenote.util.AppBarActivity
 import java.time.LocalDateTime
 import java.util.*
@@ -35,9 +25,9 @@ class NoteDetailsActivity : AppBarActivity() {
         setContentView(R.layout.activity_note_details)
         val editTitle = findViewById<EditText>(R.id.editTitle)
         val editContent = findViewById<EditText>(R.id.editContent)
-        val saveButton = findViewById<ImageButton>(R.id.saveButton)
-        val deleteButton = findViewById<ImageButton>(R.id.deleteButton)
-        val alarmButton = findViewById<ImageButton>(R.id.alarmButton)
+        val saveButton = findViewById<Button>(R.id.saveButton)
+        val deleteButton = findViewById<Button>(R.id.deleteButton)
+        val alarmButton = findViewById<Button>(R.id.alarmButton)
         val recordButton = findViewById<AudioRecorderButton>(R.id.recordButton)
         val playButton = findViewById<AudioPlayerButton>(R.id.playButton)
         val note = intent.getParcelableExtra(NOTE_ARG) ?: Note(UUID.randomUUID().toString(), created = LocalDateTime.now())
