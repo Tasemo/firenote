@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.Menu
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,7 +19,6 @@ import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.persistence.NoteRepository
 import de.oelkers.firenote.util.AppBarActivity
 
-
 const val NOTE_ARG = "NOTE_ARG"
 const val NOTE_POSITION_ARG = "NOTE_POSITION_ARG"
 const val NOTE_POSITION_NOT_FOUND = -1
@@ -29,6 +29,7 @@ class NoteListActivity : AppBarActivity() {
     private lateinit var adapter: NoteAdapter
     private lateinit var repository: NoteRepository
     private val viewModel: NoteViewModel by viewModels { NoteViewModelFactory(repository) }
+    private val selected: MutableList<Int> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,7 @@ class NoteListActivity : AppBarActivity() {
         repository = NoteRepository(baseContext)
         val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this::onDetailsFinish)
         findViewById<FloatingActionButton>(R.id.newNoteButton).setOnClickListener { onNewNoteClick(launcher) }
-        adapter = NoteAdapter(viewModel) { position -> onNoteClick(position, launcher) }
+        adapter = NoteAdapter(viewModel, { position -> onNoteClick(position, launcher) }, this::onNoteLongClick)
         viewModel.notesLiveData.observe(this, adapter::submitList)
         findViewById<RecyclerView>(R.id.notesView).adapter = adapter
     }
@@ -44,6 +45,17 @@ class NoteListActivity : AppBarActivity() {
     override fun onPause() {
         super.onPause()
         repository.saveAllNotes(viewModel.notes)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val result = super.onCreateOptionsMenu(menu)
+        val quickDeleteButton = menu?.findItem(R.id.quickDelete)
+        quickDeleteButton?.setVisible(selected.isNotEmpty())
+        quickDeleteButton?.setOnMenuItemClickListener {
+            onQuickDeleteClick()
+            true
+        }
+        return result
     }
 
     private fun onNewNoteClick(launcher: ActivityResultLauncher<Intent>) {
@@ -74,5 +86,20 @@ class NoteListActivity : AppBarActivity() {
                 viewModel.deleteNote(position)
             }
         }
+    }
+
+    private fun onNoteLongClick(position: Int) {
+        if (selected.contains(position)) {
+            selected.remove(position)
+        } else {
+            selected.add(position)
+        }
+        invalidateOptionsMenu()
+    }
+
+    private fun onQuickDeleteClick() {
+        viewModel.deleteNotes(selected)
+        selected.clear()
+        invalidateOptionsMenu()
     }
 }

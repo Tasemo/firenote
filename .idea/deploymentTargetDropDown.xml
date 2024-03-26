@@ -2,7 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="NoteListActivityIntegrationTest">
+        <State />
+      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="testItemsAreDeletedOnQuickDelete()">
+        <State />
+      </entry>
+      <entry key="testThatQuickDeleteButtonIsRemovedIfItemIsReselected()">
+        <State />
+      </entry>
+      <entry key="testThatQuickDeleteButtonIsVisibleIfItemSelected()">
         <State />
       </entry>
     </value>

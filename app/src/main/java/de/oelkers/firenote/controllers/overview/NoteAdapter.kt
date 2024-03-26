@@ -11,29 +11,34 @@ import de.oelkers.firenote.R
 import de.oelkers.firenote.models.Note
 import java.time.format.DateTimeFormatter
 
+class NoteHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+    private val title = view.findViewById<TextView>(R.id.titleText)
+    private val content = view.findViewById<TextView>(R.id.contentText)
+    private val created = view.findViewById<TextView>(R.id.createdText)
+    private val dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+
+    fun bind(note: Note) {
+        title.text = note.title
+        content.text = note.content
+        created.text = note.created?.format(dateFormatter)
+    }
+}
+
 class NoteAdapter(
     private val viewModel: NoteViewModel,
-    private val onClick: (Int) -> Unit
-) : ListAdapter<Note, NoteAdapter.NoteHolder>(NoteDiffCallback) {
-
-    class NoteHolder(view: View) : RecyclerView.ViewHolder(view) {
-
-        private val title = view.findViewById<TextView>(R.id.titleText)
-        private val content = view.findViewById<TextView>(R.id.contentText)
-        private val created = view.findViewById<TextView>(R.id.createdText)
-        private val dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-
-        fun bind(note: Note) {
-            title.text = note.title
-            content.text = note.content
-            created.text = note.created?.format(dateFormatter)
-        }
-    }
+    private val onClick: ((Int) -> Unit)? = null,
+    private val onLongClick: ((Int) -> Unit)? = null
+) : ListAdapter<Note, NoteHolder>(NoteDiffCallback) {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): NoteHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.note_entry, viewGroup, false)
         val holder = NoteHolder(view)
-        view.setOnClickListener { onClick(holder.layoutPosition) }
+        view.setOnClickListener { onClick?.invoke(holder.layoutPosition) }
+        view.setOnLongClickListener {
+            onLongClick?.invoke(holder.layoutPosition)
+            onLongClick != null
+        }
         return holder
     }
 

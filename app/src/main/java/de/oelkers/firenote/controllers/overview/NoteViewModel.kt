@@ -20,6 +20,15 @@ class NoteViewModel(repository: NoteRepository) : ViewModel() {
         perform { it.removeAt(index) }
     }
 
+    fun deleteNotes(indices: Iterable<Int>) {
+        val sorted = indices.sortedDescending()
+        perform {
+            for (index in sorted) {
+                it.removeAt(index)
+            }
+        }
+    }
+
     fun updateNote(note: Note, index: Int) {
         perform { it[index] = note }
     }
