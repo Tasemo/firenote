@@ -1,10 +1,13 @@
 package de.oelkers.firenote.controllers.overview
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
@@ -29,18 +32,28 @@ class NoteHolder(view: View) : RecyclerView.ViewHolder(view) {
 class NoteAdapter(
     private val viewModel: NoteViewModel,
     private val onClick: ((Int) -> Unit)? = null,
-    private val onLongClick: ((Int) -> Unit)? = null
+    private val onLongClick: ((Int) -> Unit)? = null,
+    private val touchHelper: ItemTouchHelper? = null
 ) : ListAdapter<Note, NoteHolder>(NoteDiffCallback) {
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): NoteHolder {
-        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.note_entry, viewGroup, false)
-        val card = view.findViewById<MaterialCardView>(R.id.node_card)
-        val holder = NoteHolder(view)
-        view.setOnClickListener { onClick?.invoke(holder.layoutPosition) }
-        view.setOnLongClickListener {
+        val noteView = LayoutInflater.from(viewGroup.context).inflate(R.layout.note_entry, viewGroup, false)
+        val card = noteView.findViewById<MaterialCardView>(R.id.node_card)
+        val holder = NoteHolder(card)
+        card.setOnClickListener { onClick?.invoke(holder.adapterPosition) }
+        card.setOnLongClickListener {
             card.isChecked = !card.isChecked
-            onLongClick?.invoke(holder.layoutPosition)
+            onLongClick?.invoke(holder.adapterPosition)
             onLongClick != null
+        }
+        card.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_MOVE) {
+                touchHelper?.startDrag(holder)
+                touchHelper != null
+            } else {
+                false
+            }
         }
         return holder
     }

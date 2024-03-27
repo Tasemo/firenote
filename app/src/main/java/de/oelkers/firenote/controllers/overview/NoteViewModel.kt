@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.persistence.NoteRepository
+import java.util.*
 
 class NoteViewModel(repository: NoteRepository) : ViewModel() {
 
@@ -31,6 +32,10 @@ class NoteViewModel(repository: NoteRepository) : ViewModel() {
 
     fun updateNote(note: Note, index: Int) {
         perform { it[index] = note }
+    }
+
+    fun swapNotes(from: Int, to: Int) {
+        perform { Collections.swap(it, from, to) }
     }
 
     private fun perform(task: (list: MutableList<Note>) -> Unit) {

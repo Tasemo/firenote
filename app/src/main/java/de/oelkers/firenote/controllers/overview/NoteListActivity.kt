@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.VisibleForTesting
 import androidx.annotation.VisibleForTesting.Companion.PRIVATE
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.oelkers.firenote.R
@@ -35,11 +36,15 @@ class NoteListActivity : AppBarActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_list)
         repository = NoteRepository(baseContext)
+        val fab = findViewById<FloatingActionButton>(R.id.newNoteButton)
+        val notesView = findViewById<RecyclerView>(R.id.notesView)
         val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this::onDetailsFinish)
-        findViewById<FloatingActionButton>(R.id.newNoteButton).setOnClickListener { onNewNoteClick(launcher) }
-        adapter = NoteAdapter(viewModel, { position -> onNoteClick(position, launcher) }, this::onNoteLongClick)
+        fab.setOnClickListener { onNewNoteClick(launcher) }
+        val touchHelper = ItemTouchHelper(CardItemTouchHelperCallback(viewModel))
+        adapter = NoteAdapter(viewModel, { position -> onNoteClick(position, launcher) }, this::onNoteLongClick, touchHelper)
         viewModel.notesLiveData.observe(this, adapter::submitList)
-        findViewById<RecyclerView>(R.id.notesView).adapter = adapter
+        notesView.adapter = adapter
+        touchHelper.attachToRecyclerView(notesView)
     }
 
     override fun onPause() {
