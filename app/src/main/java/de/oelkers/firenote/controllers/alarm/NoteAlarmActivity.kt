@@ -80,6 +80,7 @@ class NoteAlarmActivity : AppBarActivity(), DatePickerDialog.OnDateSetListener, 
     private fun onCancelClick() {
         pendingIntent?.cancel()
         alarmButton.text = initialAlarmText
+        Toast.makeText(baseContext, "Alarm successfully canceled", Toast.LENGTH_SHORT).show()
     }
 
     inner class AlarmReceiver : BroadcastReceiver() {

@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import de.oelkers.firenote.R
 import de.oelkers.firenote.models.Note
 import java.time.format.DateTimeFormatter
@@ -33,9 +34,11 @@ class NoteAdapter(
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): NoteHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.note_entry, viewGroup, false)
+        val card = view.findViewById<MaterialCardView>(R.id.node_card)
         val holder = NoteHolder(view)
         view.setOnClickListener { onClick?.invoke(holder.layoutPosition) }
         view.setOnLongClickListener {
+            card.isChecked = !card.isChecked
             onLongClick?.invoke(holder.layoutPosition)
             onLongClick != null
         }
