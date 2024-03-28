@@ -10,7 +10,7 @@ class CardItemTouchHelperCallback(private val viewModel: NoteViewModel) : ItemTo
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        viewModel.swapNotes(viewHolder.adapterPosition, target.adapterPosition)
+        viewModel.swapNotes(viewHolder.layoutPosition, target.layoutPosition)
         return true
     }
 

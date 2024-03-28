@@ -41,10 +41,10 @@ class NoteAdapter(
         val noteView = LayoutInflater.from(viewGroup.context).inflate(R.layout.note_entry, viewGroup, false)
         val card = noteView.findViewById<MaterialCardView>(R.id.node_card)
         val holder = NoteHolder(card)
-        card.setOnClickListener { onClick?.invoke(holder.adapterPosition) }
+        card.setOnClickListener { onClick?.invoke(holder.layoutPosition) }
         card.setOnLongClickListener {
             card.isChecked = !card.isChecked
-            onLongClick?.invoke(holder.adapterPosition)
+            onLongClick?.invoke(holder.layoutPosition)
             onLongClick != null
         }
         card.setOnTouchListener { _, event ->
