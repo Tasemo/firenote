@@ -21,4 +21,6 @@ but also because I´m tired of ad-infested bloatware in the PlayStore.
 
 ## Screenshots
 
-![Overview Screen](./docs/images/note_overview_screen.png) ![Details Screen](./docs/images/note_details_screen.png)
+| Overview Screen                                            | Details Screen                                           |
+|------------------------------------------------------------|----------------------------------------------------------|
+| ![Overview Screen](./docs/images/note_overview_screen.png) | ![Details Screen](./docs/images/note_details_screen.png) |
