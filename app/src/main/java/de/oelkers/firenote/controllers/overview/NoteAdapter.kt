@@ -58,10 +58,10 @@ class NoteAdapter(
         return holder
     }
 
-    override fun getItemCount() = viewModel.notes.size
+    override fun getItemCount() = viewModel.filteredNotes.size
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
-        holder.bind(viewModel.notes[position])
+        holder.bind(viewModel.filteredNotes[position])
     }
 
     companion object NoteDiffCallback : DiffUtil.ItemCallback<Note>() {

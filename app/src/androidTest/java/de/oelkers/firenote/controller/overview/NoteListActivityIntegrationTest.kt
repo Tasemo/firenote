@@ -63,7 +63,7 @@ class NoteListActivityIntegrationTest {
             onView(withId(R.id.quickDelete)).check(doesNotExist())
             it.onActivity { activity ->
                 val viewModel: NoteViewModel by activity.viewModels { NoteViewModelFactory(repository) }
-                assertTrue(viewModel.notes.isEmpty())
+                assertTrue(viewModel.allNotes.isEmpty())
             }
         }
     }

@@ -3,6 +3,12 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+            android:id="@+id/search_button"
+            android:title="@string/search_title"
+            android:icon="@android:drawable/ic_menu_search"
+            app:actionViewClass="androidx.appcompat.widget.SearchView"
+            app:showAsAction="ifRoom|collapseActionView"/>
+    <item
             android:id="@+id/quickDelete"
             android:title="@string/quick_delete_text"
             android:visible="false"

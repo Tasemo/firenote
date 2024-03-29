@@ -20,13 +20,12 @@ open class AppBarActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.settings -> {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.settings) {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
-            true
+            return true
         }
-
-        else -> super.onOptionsItemSelected(item)
+        return super.onOptionsItemSelected(item)
     }
 }

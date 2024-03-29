@@ -11,6 +11,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.VisibleForTesting
 import androidx.annotation.VisibleForTesting.Companion.PRIVATE
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -42,14 +44,14 @@ class NoteListActivity : AppBarActivity() {
         fab.setOnClickListener { onNewNoteClick(launcher) }
         val touchHelper = ItemTouchHelper(CardItemTouchHelperCallback(viewModel))
         adapter = NoteAdapter(viewModel, { position -> onNoteClick(position, launcher) }, this::onNoteLongClick, touchHelper)
-        viewModel.notesLiveData.observe(this, adapter::submitList)
+        viewModel.filteredNotesLiveData.observe(this, adapter::submitList)
         notesView.adapter = adapter
         touchHelper.attachToRecyclerView(notesView)
     }
 
     override fun onPause() {
         super.onPause()
-        repository.saveAllNotes(viewModel.notes)
+        repository.saveAllNotes(viewModel.allNotes)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -60,6 +62,17 @@ class NoteListActivity : AppBarActivity() {
             onQuickDeleteClick()
             true
         }
+        val search = menu?.findItem(R.id.search_button)?.actionView as SearchView
+        search.setOnQueryTextListener(object : OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.filter(newText)
+                return false
+            }
+        })
         return result
     }
 
@@ -70,7 +83,7 @@ class NoteListActivity : AppBarActivity() {
 
     private fun onNoteClick(position: Int, launcher: ActivityResultLauncher<Intent>) {
         val intent = Intent(this, NoteDetailsActivity::class.java)
-        val note = viewModel.notes[position]
+        val note = viewModel.filteredNotes[position]
         intent.putExtra(NOTE_POSITION_ARG, position)
         intent.putExtra(NOTE_ARG, note as Parcelable)
         launcher.launch(intent)
