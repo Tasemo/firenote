@@ -62,7 +62,10 @@ class NoteListActivity : AppBarActivity() {
             onQuickDeleteClick()
             true
         }
-        val search = menu?.findItem(R.id.search_button)?.actionView as SearchView
+        val searchButton = menu?.findItem(R.id.search_button)
+        searchButton?.setVisible(true)
+        searchButton?.setEnabled(true)
+        val search = searchButton?.actionView as SearchView
         search.setOnQueryTextListener(object : OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
