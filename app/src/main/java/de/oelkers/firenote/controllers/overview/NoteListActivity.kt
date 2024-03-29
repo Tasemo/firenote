@@ -31,8 +31,8 @@ class NoteListActivity : AppBarActivity() {
 
     private lateinit var adapter: NoteAdapter
     private lateinit var repository: NoteRepository
-    private val viewModel: NoteViewModel by viewModels { NoteViewModelFactory(repository) }
-    private val selected: MutableList<Int> = ArrayList()
+    private val viewModel: NoteViewModel by viewModels()
+    private val selected: MutableCollection<Int> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,14 +44,15 @@ class NoteListActivity : AppBarActivity() {
         fab.setOnClickListener { onNewNoteClick(launcher) }
         val touchHelper = ItemTouchHelper(CardItemTouchHelperCallback(viewModel))
         adapter = NoteAdapter(viewModel, { position -> onNoteClick(position, launcher) }, this::onNoteLongClick, touchHelper)
-        viewModel.filteredNotesLiveData.observe(this, adapter::submitList)
+        viewModel.setAllNotes(repository.readAllNotes())
+        viewModel.filteredNotes.observe(this, adapter::submitList)
         notesView.adapter = adapter
         touchHelper.attachToRecyclerView(notesView)
     }
 
     override fun onPause() {
         super.onPause()
-        repository.saveAllNotes(viewModel.allNotes)
+        repository.saveAllNotes(viewModel.allNotes.value!!)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -72,7 +73,7 @@ class NoteListActivity : AppBarActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.filter(newText)
+                viewModel.setFilterValue(newText)
                 return false
             }
         })
@@ -86,7 +87,7 @@ class NoteListActivity : AppBarActivity() {
 
     private fun onNoteClick(position: Int, launcher: ActivityResultLauncher<Intent>) {
         val intent = Intent(this, NoteDetailsActivity::class.java)
-        val note = viewModel.filteredNotes[position]
+        val note = viewModel.filteredNotes.value!![position]
         intent.putExtra(NOTE_POSITION_ARG, position)
         intent.putExtra(NOTE_ARG, note as Parcelable)
         launcher.launch(intent)

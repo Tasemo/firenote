@@ -11,12 +11,6 @@
       <entry key="testThatItemsAreFilteredOnSearch()">
         <State />
       </entry>
-      <entry key="testThatQuickDeleteButtonIsRemovedIfItemIsReselected()">
-        <State />
-      </entry>
-      <entry key="testThatQuickDeleteButtonIsVisibleIfItemSelected()">
-        <State />
-      </entry>
     </value>
   </component>
 </project>

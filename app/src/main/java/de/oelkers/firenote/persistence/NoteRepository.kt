@@ -1,7 +1,6 @@
 package de.oelkers.firenote.persistence
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import de.oelkers.firenote.models.Note
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
@@ -16,10 +15,10 @@ class NoteRepository(private val context: Context) {
         context.filesDir.resolve(AUDIO_DIRECTORY).mkdir()
     }
 
-    fun readAllNotes(): MutableList<Note> {
+    fun readAllNotes(): ArrayList<Note> {
         val result = ArrayList<Note>()
         val files = context.filesDir.resolve(NOTE_DIRECTORY).listFiles() ?: return result
-        files.map { file ->
+        files.forEach { file ->
             ObjectInputStream(file.inputStream()).use { stream ->
                 result.add(stream.readObject() as Note)
             }
@@ -27,9 +26,9 @@ class NoteRepository(private val context: Context) {
         return result
     }
 
-    fun saveAllNotes(notes: List<Note>) {
+    fun saveAllNotes(notes: Iterable<Note>) {
         deleteAllNotes()
-        notes.mapIndexed { index, note ->
+        notes.forEachIndexed { index, note ->
             val fileName = context.filesDir.resolve(NOTE_DIRECTORY).resolve("note-$index")
             ObjectOutputStream(fileName.outputStream()).use { stream ->
                 stream.writeObject(note)
@@ -38,7 +37,7 @@ class NoteRepository(private val context: Context) {
     }
 
     private fun deleteAllNotes() {
-        context.filesDir.resolve(NOTE_DIRECTORY).listFiles()?.map { file ->
+        context.filesDir.resolve(NOTE_DIRECTORY).listFiles()?.forEach { file ->
             file.delete()
         }
     }

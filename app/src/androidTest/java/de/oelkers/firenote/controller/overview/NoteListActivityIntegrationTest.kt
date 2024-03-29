@@ -14,7 +14,6 @@ import de.oelkers.firenote.R
 import de.oelkers.firenote.controllers.overview.NoteHolder
 import de.oelkers.firenote.controllers.overview.NoteListActivity
 import de.oelkers.firenote.controllers.overview.NoteViewModel
-import de.oelkers.firenote.controllers.overview.NoteViewModelFactory
 import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.persistence.NoteRepository
 import de.oelkers.firenote.testing.atPosition
@@ -62,8 +61,8 @@ class NoteListActivityIntegrationTest {
             onView(withId(R.id.quickDelete)).perform(click())
             onView(withId(R.id.quickDelete)).check(doesNotExist())
             it.onActivity { activity ->
-                val viewModel: NoteViewModel by activity.viewModels { NoteViewModelFactory(repository) }
-                assertTrue(viewModel.allNotes.isEmpty())
+                val viewModel: NoteViewModel by activity.viewModels()
+                assertTrue(viewModel.allNotes.value!!.none())
             }
         }
     }
@@ -79,10 +78,10 @@ class NoteListActivityIntegrationTest {
             onView(withId(R.id.notesView)).check(matches(atPosition(0, hasDescendant(withText("TestTitle")))))
             onView(withId(R.id.notesView)).check(matches(atPosition(1, hasDescendant(withText("ContentTest")))))
             it.onActivity { activity ->
-                val viewModel: NoteViewModel by activity.viewModels { NoteViewModelFactory(repository) }
-                assertEquals(notes, viewModel.allNotes)
+                val viewModel: NoteViewModel by activity.viewModels()
+                assertEquals(notes, viewModel.allNotes.value)
                 notes.removeAt(1)
-                assertEquals(notes, viewModel.filteredNotes)
+                assertEquals(notes, viewModel.filteredNotes.value)
             }
         }
     }
