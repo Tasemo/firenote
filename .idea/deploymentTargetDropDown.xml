@@ -8,7 +8,7 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="testItemsAreDeletedOnQuickDelete()">
+      <entry key="testThatItemsAreFilteredOnSearch()">
         <State />
       </entry>
       <entry key="testThatQuickDeleteButtonIsRemovedIfItemIsReselected()">
