@@ -25,13 +25,13 @@
         <activity
                 android:name=".controllers.settings.SettingsActivity"
                 android:exported="false"
-                android:parentActivityName=".controllers.overview.NoteListActivity"/>
+                android:parentActivityName=".controllers.overview.FolderOverviewActivity"/>
         <activity
                 android:name=".controllers.detail.NoteDetailsActivity"
                 android:exported="false"
-                android:parentActivityName=".controllers.overview.NoteListActivity"/>
+                android:parentActivityName=".controllers.overview.FolderOverviewActivity"/>
         <activity
-                android:name=".controllers.overview.NoteListActivity"
+                android:name=".controllers.overview.FolderOverviewActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

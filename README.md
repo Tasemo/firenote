@@ -11,12 +11,13 @@ but also because I´m tired of ad-infested bloatware in the PlayStore.
 * Set note notifications for specific dates and times
 * Quickly delete multiple notes per long-press
 * Reordering of notes per Drag & Drop
+* Search notes based on title or content
 
 ## Planned
 
-* Search notes based on title or content (work-in-progress)
-* Organize notes into user defined folders
+* Organize notes into user defined folders (work-in-progress)
 * Mark specific notes as favorites
+* Sort notes based on time or title
 * Greater control over notifications (e.g. repeated alarms, custom ringtones)
 
 ## Screenshots

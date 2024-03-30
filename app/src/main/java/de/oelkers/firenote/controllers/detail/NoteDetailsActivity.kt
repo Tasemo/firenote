@@ -10,12 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import de.oelkers.firenote.R
 import de.oelkers.firenote.controllers.alarm.NoteAlarmActivity
-import de.oelkers.firenote.controllers.overview.NOTE_ARG
-import de.oelkers.firenote.controllers.overview.RESULT_DELETED
 import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.util.AppBarActivity
 import java.time.LocalDateTime
 import java.util.*
+
+const val ARG_NOTE = "ARG_NOTE"
+const val RESULT_DELETED = AppCompatActivity.RESULT_FIRST_USER + 1
 
 class NoteDetailsActivity : AppBarActivity() {
 
@@ -29,7 +30,7 @@ class NoteDetailsActivity : AppBarActivity() {
         val alarmButton = findViewById<Button>(R.id.alarmButton)
         val recordButton = findViewById<AudioRecorderButton>(R.id.recordButton)
         val playButton = findViewById<AudioPlayerButton>(R.id.playButton)
-        val note = intent.getParcelableExtra(NOTE_ARG) ?: Note(UUID.randomUUID().toString(), created = LocalDateTime.now())
+        val note = intent.getParcelableExtra(ARG_NOTE) ?: Note(UUID.randomUUID().toString(), created = LocalDateTime.now())
         editTitle.setText(note.title)
         editContent.setText(note.content)
         setButtonVisibility(note, playButton, recordButton)
@@ -39,7 +40,7 @@ class NoteDetailsActivity : AppBarActivity() {
             note.title = editTitle.text.toString()
             note.content = editContent.text.toString()
             note.audioPath = recordButton.audioFile ?: note.audioPath
-            result.putExtra(NOTE_ARG, note as Parcelable)
+            result.putExtra(ARG_NOTE, note as Parcelable)
             setResult(RESULT_OK, result)
             finish()
         }

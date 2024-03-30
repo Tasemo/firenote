@@ -1,4 +1,4 @@
-package de.oelkers.firenote.controllers.overview
+package de.oelkers.firenote.controllers.folder
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -30,7 +30,7 @@ class NoteHolder(view: View) : RecyclerView.ViewHolder(view) {
 }
 
 class NoteAdapter(
-    private val viewModel: NoteViewModel,
+    private val viewModel: FolderViewModel,
     private val onClick: ((Int) -> Unit)? = null,
     private val onLongClick: ((Int) -> Unit)? = null,
     private val touchHelper: ItemTouchHelper? = null

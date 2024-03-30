@@ -1,7 +1,7 @@
 package de.oelkers.firenote.persistence
 
 import android.content.Context
-import de.oelkers.firenote.models.Note
+import de.oelkers.firenote.models.Folder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertIterableEquals
 import org.junit.jupiter.api.Test
@@ -10,18 +10,18 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import java.io.File
 
-class NoteRepositoryTest {
+class FolderRepositoryTest {
 
     @Test
     fun testThatNotesAreSavedToDisk(@TempDir fileDir: File) {
         val context = mock<Context> {
             on(it.filesDir).doReturn(fileDir)
         }
-        val repository = NoteRepository(context)
-        val notes = listOf(Note("Note1"), Note("Note2"))
-        repository.saveAllNotes(notes)
+        val repository = FolderRepository(context)
+        val folders = listOf(Folder("Folder1"), Folder("Folder2"))
+        repository.saveAllFolders(folders)
         assertEquals(2, fileDir.resolve(NOTE_DIRECTORY).list()?.size)
-        assertIterableEquals(notes, repository.readAllNotes())
+        assertIterableEquals(folders, repository.readAllFolders())
     }
 
     @Test
@@ -29,12 +29,12 @@ class NoteRepositoryTest {
         val context = mock<Context> {
             on(it.filesDir).doReturn(fileDir)
         }
-        val repository = NoteRepository(context)
-        val notes = mutableListOf(Note("Note1"), Note("Note2"))
-        repository.saveAllNotes(notes)
-        notes.removeAt(1)
-        repository.saveAllNotes(notes)
+        val repository = FolderRepository(context)
+        val folders = mutableListOf(Folder("Folder1"), Folder("Folder2"))
+        repository.saveAllFolders(folders)
+        folders.removeAt(1)
+        repository.saveAllFolders(folders)
         assertEquals(1, fileDir.resolve(NOTE_DIRECTORY).list()?.size)
-        assertIterableEquals(notes, repository.readAllNotes())
+        assertIterableEquals(folders, repository.readAllFolders())
     }
 }

@@ -1,9 +1,9 @@
-package de.oelkers.firenote.controllers.overview
+package de.oelkers.firenote.controllers.folder
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class CardItemTouchHelperCallback(private val viewModel: NoteViewModel) : ItemTouchHelper.Callback() {
+class NoteTouchHelperCallback(private val viewModel: FolderViewModel) : ItemTouchHelper.Callback() {
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0)
