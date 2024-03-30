@@ -10,10 +10,10 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import java.io.File
 
-class FolderRepositoryTest {
+class FolderRepositoryUnitTest {
 
     @Test
-    fun testThatNotesAreSavedToDisk(@TempDir fileDir: File) {
+    fun testThatFoldersAreSavedToDisk(@TempDir fileDir: File) {
         val context = mock<Context> {
             on(it.filesDir).doReturn(fileDir)
         }
@@ -25,7 +25,7 @@ class FolderRepositoryTest {
     }
 
     @Test
-    fun testThatAllNotesCanBeOverwritten(@TempDir fileDir: File) {
+    fun testThatAllFoldersCanBeOverwritten(@TempDir fileDir: File) {
         val context = mock<Context> {
             on(it.filesDir).doReturn(fileDir)
         }

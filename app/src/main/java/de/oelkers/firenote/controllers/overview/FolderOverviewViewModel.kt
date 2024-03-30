@@ -29,6 +29,14 @@ class FolderOverviewViewModel(repository: FolderRepository) : ViewModel() {
         _filterValue.value = text
     }
 
+    fun isAnySelected(): Boolean {
+        return folderViewModels.values.any(FolderViewModel::isAnySelected)
+    }
+
+    fun deleteSelected() {
+        folderViewModels.values.forEach(FolderViewModel::deleteSelected)
+    }
+
     fun updateFolder(folder: Folder, index: Int) {
         perform { it[index] = folder }
     }

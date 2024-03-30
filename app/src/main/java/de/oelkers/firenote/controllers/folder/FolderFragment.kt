@@ -56,7 +56,8 @@ class FolderFragment : Fragment() {
     }
 
     private fun onNoteLongClick(position: Int) {
-        TODO("How should quick delete work across different folders?")
+        viewModel.selectNote(position)
+        requireActivity().invalidateOptionsMenu()
     }
 
     private fun onDetailsFinish(result: ActivityResult) {

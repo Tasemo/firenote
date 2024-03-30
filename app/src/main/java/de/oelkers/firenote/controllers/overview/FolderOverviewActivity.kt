@@ -48,12 +48,12 @@ class FolderOverviewActivity : AppBarActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val result = super.onCreateOptionsMenu(menu)
-//        val quickDeleteButton = menu?.findItem(R.id.quickDelete)
-//        quickDeleteButton?.setVisible(selected.isNotEmpty())
-//        quickDeleteButton?.setOnMenuItemClickListener {
-//            onQuickDeleteClick()
-//            true
-//        }
+        val quickDeleteButton = menu?.findItem(R.id.quickDelete)
+        quickDeleteButton?.setVisible(viewModel.isAnySelected())
+        quickDeleteButton?.setOnMenuItemClickListener {
+            onQuickDeleteClick()
+            true
+        }
         val searchButton = menu?.findItem(R.id.search_button)
         searchButton?.setVisible(true)
         searchButton?.setEnabled(true)
@@ -85,8 +85,7 @@ class FolderOverviewActivity : AppBarActivity() {
     }
 
     private fun onQuickDeleteClick() {
-//        viewModel.deleteNotes(selected)
-//        selected.clear()
-//        invalidateOptionsMenu()
+        viewModel.deleteSelected()
+        invalidateOptionsMenu()
     }
 }

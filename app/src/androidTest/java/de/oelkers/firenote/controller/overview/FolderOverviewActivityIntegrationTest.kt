@@ -29,7 +29,7 @@ class FolderOverviewActivityIntegrationTest {
     @Test
     fun testThatQuickDeleteButtonIsVisibleIfItemSelected() {
         val repository = FolderRepository(InstrumentationRegistry.getInstrumentation().targetContext)
-        val notes = listOf(Note("Note1"), Note("Note2"))
+        val notes = mutableListOf(Note("Note1"), Note("Note2"))
         val folders = listOf(Folder("Folder1", notes))
         repository.saveAllFolders(folders)
         launchActivity<FolderOverviewActivity>().use {
@@ -42,7 +42,7 @@ class FolderOverviewActivityIntegrationTest {
     @Test
     fun testThatQuickDeleteButtonIsRemovedIfItemIsReselected() {
         val repository = FolderRepository(InstrumentationRegistry.getInstrumentation().targetContext)
-        val notes = listOf(Note("Note1"), Note("Note2"))
+        val notes = mutableListOf(Note("Note1"), Note("Note2"))
         val folders = listOf(Folder("Folder1", notes))
         repository.saveAllFolders(folders)
         launchActivity<FolderOverviewActivity>().use {
@@ -56,7 +56,7 @@ class FolderOverviewActivityIntegrationTest {
     @Test
     fun testThatItemsAreDeletedOnQuickDelete() {
         val repository = FolderRepository(InstrumentationRegistry.getInstrumentation().targetContext)
-        val notes = listOf(Note("Note1"), Note("Note2"))
+        val notes = mutableListOf(Note("Note1"), Note("Note2"))
         val folders = listOf(Folder("Folder1", notes))
         repository.saveAllFolders(folders)
         launchActivity<FolderOverviewActivity>().use {
@@ -66,7 +66,8 @@ class FolderOverviewActivityIntegrationTest {
             onView(withId(R.id.quickDelete)).check(doesNotExist())
             it.onActivity { activity ->
                 val viewModel: FolderOverviewViewModel by activity.viewModels()
-                assertTrue(viewModel.allFolders.value!!.none())
+                val folderViewModel = viewModel.getViewModelFor(0)
+                assertTrue(folderViewModel.allNotes.value!!.none())
             }
         }
     }
@@ -84,9 +85,10 @@ class FolderOverviewActivityIntegrationTest {
             onView(withId(R.id.notesView)).check(matches(atPosition(1, hasDescendant(withText("ContentTest")))))
             it.onActivity { activity ->
                 val viewModel: FolderOverviewViewModel by activity.viewModels()
-                assertEquals(notes, viewModel.allFolders.value)
+                val folderViewModel = viewModel.getViewModelFor(0)
+                assertEquals(notes, folderViewModel.allNotes.value)
                 notes.removeAt(1)
-                assertEquals(notes, viewModel.filteredNotes.value)
+                assertEquals(notes, folderViewModel.filteredNotes.value)
             }
         }
     }
