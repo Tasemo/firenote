@@ -11,21 +11,16 @@ class NoteViewModel : ViewModel() {
 
     private val _filterValue = MutableLiveData<CharSequence?>()
     val filterValue: LiveData<CharSequence?>
-        get() {
-            return _filterValue
-        }
-    private val _allNotes = MutableLiveData<Iterable<Note>>()
-    val allNotes: LiveData<Iterable<Note>>
-        get() {
-            return _allNotes
-        }
+        get() = _filterValue
+    private val _allNotes = MutableLiveData<List<Note>>()
+    val allNotes: LiveData<List<Note>>
+        get() = _allNotes
+
     private val _filteredNotes = _allNotes.filter(_filterValue, this::filterNotes)
     val filteredNotes: LiveData<List<Note>>
-        get() {
-            return _filteredNotes
-        }
+        get() = _filteredNotes
 
-    fun setAllNotes(notes: Iterable<Note>) {
+    fun setAllNotes(notes: List<Note>) {
         _allNotes.value = notes
     }
 

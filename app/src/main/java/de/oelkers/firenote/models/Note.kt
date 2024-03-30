@@ -2,16 +2,10 @@ package de.oelkers.firenote.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import de.oelkers.firenote.util.readLocalDateTime
+import de.oelkers.firenote.util.writeLocalDateTime
 import java.io.Serializable
 import java.time.LocalDateTime
-
-fun parseLocalDateTime(value: String?): LocalDateTime? {
-    return if (value.isNullOrEmpty() || value == "null") {
-        null
-    } else {
-        LocalDateTime.parse(value)
-    }
-}
 
 data class Note(
     val id: String,
@@ -25,7 +19,7 @@ data class Note(
         parcel.readString()!!,
         parcel.readString(),
         parcel.readString(),
-        parseLocalDateTime(parcel.readString()),
+        parcel.readLocalDateTime(),
         parcel.readString()
     )
 
@@ -33,7 +27,7 @@ data class Note(
         parcel.writeString(id)
         parcel.writeString(title)
         parcel.writeString(content)
-        parcel.writeString(created.toString())
+        parcel.writeLocalDateTime(created)
         parcel.writeString(audioPath)
     }
 

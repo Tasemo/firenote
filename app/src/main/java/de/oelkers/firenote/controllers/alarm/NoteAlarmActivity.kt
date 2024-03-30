@@ -17,7 +17,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.*
+import androidx.core.content.ContextCompat.registerReceiver
 import de.oelkers.firenote.R
 import de.oelkers.firenote.util.AppBarActivity
 import java.text.SimpleDateFormat

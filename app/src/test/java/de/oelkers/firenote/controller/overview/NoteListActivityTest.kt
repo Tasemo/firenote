@@ -1,7 +1,7 @@
 package de.oelkers.firenote.controller.overview
 
-import android.app.Activity
 import androidx.activity.result.ActivityResult
+import androidx.appcompat.app.AppCompatActivity
 import de.oelkers.firenote.controllers.overview.NoteListActivity
 import de.oelkers.firenote.testing.LocalTaskExecutorRule
 import org.junit.jupiter.api.Test
@@ -14,7 +14,7 @@ class NoteListActivityTest {
     @Test
     fun testThatPrematureActivityReturnIsHandled() {
         val activity = NoteListActivity()
-        val result = ActivityResult(Activity.RESULT_CANCELED, null)
+        val result = ActivityResult(AppCompatActivity.RESULT_CANCELED, null)
         assertDoesNotThrow { activity.onDetailsFinish(result) }
     }
 }

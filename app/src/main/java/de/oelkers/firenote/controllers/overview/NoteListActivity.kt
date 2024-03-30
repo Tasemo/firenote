@@ -1,6 +1,5 @@
 package de.oelkers.firenote.controllers.overview
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -11,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.VisibleForTesting
 import androidx.annotation.VisibleForTesting.Companion.PRIVATE
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -25,7 +25,7 @@ import de.oelkers.firenote.util.AppBarActivity
 const val NOTE_ARG = "NOTE_ARG"
 const val NOTE_POSITION_ARG = "NOTE_POSITION_ARG"
 const val NOTE_POSITION_NOT_FOUND = -1
-const val RESULT_DELETED = Activity.RESULT_FIRST_USER + 1
+const val RESULT_DELETED = AppCompatActivity.RESULT_FIRST_USER + 1
 
 class NoteListActivity : AppBarActivity() {
 
@@ -96,7 +96,7 @@ class NoteListActivity : AppBarActivity() {
     @VisibleForTesting(otherwise = PRIVATE)
     internal fun onDetailsFinish(result: ActivityResult) {
         val position = result.data?.getIntExtra(NOTE_POSITION_ARG, NOTE_POSITION_NOT_FOUND) ?: NOTE_POSITION_NOT_FOUND
-        if (result.resultCode == Activity.RESULT_OK) {
+        if (result.resultCode == RESULT_OK) {
             val newNote: Note = result.data!!.extras?.getParcelable(NOTE_ARG)!!
             if (position == NOTE_POSITION_NOT_FOUND) {
                 viewModel.addNote(newNote)

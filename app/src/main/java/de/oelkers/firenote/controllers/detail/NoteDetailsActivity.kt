@@ -1,13 +1,12 @@
 package de.oelkers.firenote.controllers.detail
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import de.oelkers.firenote.R
 import de.oelkers.firenote.controllers.alarm.NoteAlarmActivity
@@ -41,7 +40,7 @@ class NoteDetailsActivity : AppBarActivity() {
             note.content = editContent.text.toString()
             note.audioPath = recordButton.audioFile ?: note.audioPath
             result.putExtra(NOTE_ARG, note as Parcelable)
-            setResult(Activity.RESULT_OK, result)
+            setResult(RESULT_OK, result)
             finish()
         }
         deleteButton.setOnClickListener {
