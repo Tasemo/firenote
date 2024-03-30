@@ -3,6 +3,10 @@ package de.oelkers.firenote.controller.overview
 import androidx.activity.viewModels
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.GeneralLocation
+import androidx.test.espresso.action.GeneralSwipeAction
+import androidx.test.espresso.action.Press
+import androidx.test.espresso.action.Swipe
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -20,18 +24,26 @@ import de.oelkers.firenote.persistence.FolderRepository
 import de.oelkers.firenote.testing.atPosition
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class FolderOverviewActivityIntegrationTest {
 
+    private lateinit var notes: MutableList<Note>
+    private lateinit var folders: MutableList<Folder>
+
+    @Before
+    fun setupDefaultData() {
+        val repository = FolderRepository(InstrumentationRegistry.getInstrumentation().targetContext)
+        notes = mutableListOf(Note("Note1", title = "TestTitle"), Note("Note2", title = "Note2"), Note("Note3", content = "ContentTest"))
+        folders = mutableListOf(Folder("Folder1", notes))
+        repository.saveAllFolders(folders)
+    }
+
     @Test
     fun testThatQuickDeleteButtonIsVisibleIfItemSelected() {
-        val repository = FolderRepository(InstrumentationRegistry.getInstrumentation().targetContext)
-        val notes = mutableListOf(Note("Note1"), Note("Note2"))
-        val folders = listOf(Folder("Folder1", notes))
-        repository.saveAllFolders(folders)
         launchActivity<FolderOverviewActivity>().use {
             onView(withId(R.id.quickDelete)).check(doesNotExist())
             onView(withId(R.id.notesView)).perform(actionOnItemAtPosition<NoteHolder>(0, longClick()))
@@ -41,10 +53,6 @@ class FolderOverviewActivityIntegrationTest {
 
     @Test
     fun testThatQuickDeleteButtonIsRemovedIfItemIsReselected() {
-        val repository = FolderRepository(InstrumentationRegistry.getInstrumentation().targetContext)
-        val notes = mutableListOf(Note("Note1"), Note("Note2"))
-        val folders = listOf(Folder("Folder1", notes))
-        repository.saveAllFolders(folders)
         launchActivity<FolderOverviewActivity>().use {
             onView(withId(R.id.notesView)).perform(actionOnItemAtPosition<NoteHolder>(0, longClick()))
             onView(withId(R.id.quickDelete)).check(matches(isDisplayed()))
@@ -55,13 +63,10 @@ class FolderOverviewActivityIntegrationTest {
 
     @Test
     fun testThatItemsAreDeletedOnQuickDelete() {
-        val repository = FolderRepository(InstrumentationRegistry.getInstrumentation().targetContext)
-        val notes = mutableListOf(Note("Note1"), Note("Note2"))
-        val folders = listOf(Folder("Folder1", notes))
-        repository.saveAllFolders(folders)
         launchActivity<FolderOverviewActivity>().use {
-            onView(withId(R.id.notesView)).perform(actionOnItemAtPosition<NoteHolder>(0, longClick()))
-            onView(withId(R.id.notesView)).perform(actionOnItemAtPosition<NoteHolder>(1, longClick()))
+            for (i in notes.indices) {
+                onView(withId(R.id.notesView)).perform(actionOnItemAtPosition<NoteHolder>(i, longClick()))
+            }
             onView(withId(R.id.quickDelete)).perform(click())
             onView(withId(R.id.quickDelete)).check(doesNotExist())
             it.onActivity { activity ->
@@ -74,10 +79,6 @@ class FolderOverviewActivityIntegrationTest {
 
     @Test
     fun testThatItemsAreFilteredOnSearch() {
-        val repository = FolderRepository(InstrumentationRegistry.getInstrumentation().targetContext)
-        val notes = mutableListOf(Note("Note1", title = "TestTitle"), Note("Note2"), Note("Note3", content = "ContentTest"))
-        val folders = listOf(Folder("Folder1", notes))
-        repository.saveAllFolders(folders)
         launchActivity<FolderOverviewActivity>().use {
             onView(withId(R.id.search_button)).perform(click())
             onView(withId(androidx.appcompat.R.id.search_src_text)).perform(typeText("Test"))
@@ -90,6 +91,17 @@ class FolderOverviewActivityIntegrationTest {
                 notes.removeAt(1)
                 assertEquals(notes, folderViewModel.filteredNotes.value)
             }
+        }
+    }
+
+    @Test
+    fun testThatItemsCanBeReordered() {
+        launchActivity<FolderOverviewActivity>().use {
+            val endCoordinates = GeneralLocation.translate(GeneralLocation.CENTER, 0.0f, 1.75f)
+            val swipeAction = GeneralSwipeAction(Swipe.SLOW, GeneralLocation.CENTER, endCoordinates, Press.FINGER)
+            onView(withId(R.id.notesView)).perform(actionOnItemAtPosition<NoteHolder>(0, swipeAction))
+            onView(withId(R.id.notesView)).check(matches(atPosition(0, hasDescendant(withText("Note2")))))
+            onView(withId(R.id.notesView)).check(matches(atPosition(1, hasDescendant(withText("TestTitle")))))
         }
     }
 }

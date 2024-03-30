@@ -11,6 +11,9 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="testThatItemsCanBeReordered()">
+        <State />
+      </entry>
     </value>
   </component>
 </project>
