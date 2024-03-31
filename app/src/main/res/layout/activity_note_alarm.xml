@@ -14,12 +14,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:id="@+id/timerButton"/>
+            android:id="@+id/timer_button"/>
 
     <com.google.android.material.button.MaterialButton
             android:text="@string/alarm_cancel_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:id="@+id/clearButton"/>
+            android:id="@+id/clear_button"/>
 </LinearLayout>

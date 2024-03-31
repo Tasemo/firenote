@@ -35,8 +35,8 @@ class NoteAlarmActivity : AppBarActivity(), DatePickerDialog.OnDateSetListener, 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_alarm)
-        alarmButton = findViewById(R.id.timerButton)
-        val cancelButton = findViewById<Button>(R.id.clearButton)
+        alarmButton = findViewById(R.id.timer_button)
+        val cancelButton = findViewById<Button>(R.id.clear_button)
         initialAlarmText = alarmButton.text
         alarmButton.setOnClickListener { onAlarmClick() }
         cancelButton.setOnClickListener { onCancelClick() }

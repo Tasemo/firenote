@@ -16,7 +16,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/newNoteButton"
+            android:id="@+id/new_note_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"

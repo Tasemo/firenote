@@ -13,12 +13,31 @@
             android:minHeight="?attr/actionBarSize"
             android:background="?attr/colorPrimary"/>
 
-    <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
+    <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabMode="scrollable"
-            app:tabGravity="start">
+            android:layout_height="wrap_content">
 
-    </com.google.android.material.tabs.TabLayout>
+        <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:tabMode="scrollable"
+                app:tabGravity="start"
+                app:tabMinWidth="100dp"/>
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/new_folder_button"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:icon="@android:drawable/ic_input_add"
+                app:iconSize="24dp"
+                app:iconTint="@color/colorPrimary"
+                app:iconPadding="0dp"
+                app:iconGravity="textStart"/>
+
+    </LinearLayout>
+
 </com.google.android.material.appbar.AppBarLayout>

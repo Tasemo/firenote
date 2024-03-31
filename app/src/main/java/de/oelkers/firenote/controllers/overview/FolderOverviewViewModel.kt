@@ -37,6 +37,10 @@ class FolderOverviewViewModel(repository: FolderRepository) : ViewModel() {
         folderViewModels.values.forEach(FolderViewModel::deleteSelected)
     }
 
+    fun addFolder(folder: Folder) {
+        perform { it.add(folder) }
+    }
+
     fun updateFolder(folder: Folder, index: Int) {
         perform { it[index] = folder }
     }

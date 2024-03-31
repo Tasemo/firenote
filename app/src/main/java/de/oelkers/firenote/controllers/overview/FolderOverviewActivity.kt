@@ -1,5 +1,6 @@
 package de.oelkers.firenote.controllers.overview
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -10,12 +11,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import de.oelkers.firenote.R
 import de.oelkers.firenote.controllers.detail.ARG_NOTE
 import de.oelkers.firenote.controllers.detail.NoteDetailsActivity
+import de.oelkers.firenote.models.Folder
 import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.persistence.FolderRepository
 import de.oelkers.firenote.util.AppBarActivity
@@ -26,16 +29,20 @@ class FolderOverviewActivity : AppBarActivity() {
     private lateinit var viewPager: ViewPager2
     private val viewModel: FolderOverviewViewModel by viewModels { NoteViewModelFactory(repository) }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_folder_overview)
-        val fab = findViewById<FloatingActionButton>(R.id.newNoteButton)
+        val fab = findViewById<FloatingActionButton>(R.id.new_note_button)
         viewPager = findViewById(R.id.notes_view_pager)
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
+        val newFolderButton = findViewById<MaterialButton>(R.id.new_folder_button)
         repository = FolderRepository(baseContext)
         val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this::onDetailsFinish)
         fab.setOnClickListener { onNewNoteClick(launcher) }
+        newFolderButton.setOnClickListener { onNewFolderClick() }
         viewPager.adapter = FolderAdapter(this, viewModel)
+        viewModel.allFolders.observe(this) { viewPager.adapter!!.notifyDataSetChanged() }
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = viewModel.allFolders.value!![position].name
         }.attach()
@@ -58,6 +65,7 @@ class FolderOverviewActivity : AppBarActivity() {
         searchButton?.setVisible(true)
         searchButton?.setEnabled(true)
         val search = searchButton?.actionView as SearchView
+        search.queryHint = resources.getString(R.string.search_notes_hint)
         search.setOnQueryTextListener(object : OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -74,6 +82,10 @@ class FolderOverviewActivity : AppBarActivity() {
     private fun onNewNoteClick(launcher: ActivityResultLauncher<Intent>) {
         val intent = Intent(this, NoteDetailsActivity::class.java)
         launcher.launch(intent)
+    }
+
+    private fun onNewFolderClick() {
+        viewModel.addFolder(Folder("Hello Folder"))
     }
 
     private fun onDetailsFinish(result: ActivityResult) {
