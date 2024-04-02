@@ -1,15 +1,19 @@
 package de.oelkers.firenote.controllers.folder
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import de.oelkers.firenote.controllers.overview.FolderOverviewViewModel
 import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.util.filter
+import de.oelkers.firenote.util.toggle
 import java.util.*
 
 class FolderViewModel(private val folderOverviewViewModel: FolderOverviewViewModel, private val folderIndex: Int) : ViewModel() {
 
-    val allNotes = folderOverviewViewModel.allFolders.map { it[folderIndex].notes }
+    private val isActive = MutableLiveData<Boolean>(true)
+    private val allFolders = folderOverviewViewModel.allFolders.toggle(isActive)
+    val allNotes = allFolders.map { it[folderIndex].notes }
     val filteredNotes = allNotes.filter(folderOverviewViewModel.filterValue, this::filterNotes)
     private val selected: MutableList<Int> = ArrayList()
 
@@ -60,6 +64,10 @@ class FolderViewModel(private val folderOverviewViewModel: FolderOverviewViewMod
             val allToIndex = getAllNoteIndex(to)
             Collections.swap(it, allFromIndex, allToIndex)
         }
+    }
+
+    fun deactivate() {
+        isActive.value = false
     }
 
     private fun getAllNoteIndex(filteredIndex: Int): Int {

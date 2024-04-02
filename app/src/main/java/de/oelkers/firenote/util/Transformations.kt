@@ -15,3 +15,13 @@ fun <T, F, S : Iterable<T>> LiveData<S>.filter(filterValue: LiveData<F>, filter:
         }
     }
 }
+
+fun <T> LiveData<T>.toggle(toggleValue: LiveData<Boolean?>): LiveData<T> {
+    return MediatorLiveData<T>().apply {
+        addSource(this@toggle) {
+            if (toggleValue.value == true) {
+                this.value = it
+            }
+        }
+    }
+}

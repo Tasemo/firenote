@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              tools:context=".controllers.folder.edit.EditFolderFragment">
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="@string/folder_name_hint"
+            app:endIconMode="clear_text"
+            android:layout_weight="1">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/folder_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+            app:icon="@android:drawable/ic_menu_delete"
+            app:iconTint="@null"
+            app:iconSize="30dp"
+            app:iconPadding="0dp"
+            app:iconGravity="textStart"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="4dp"
+            android:id="@+id/deleteButton"
+            android:contentDescription="@string/folder_delete_button_description"/>
+
+    <com.google.android.material.button.MaterialButton
+            app:icon="@android:drawable/ic_menu_save"
+            app:iconTint="@null"
+            app:iconSize="30dp"
+            app:iconPadding="0dp"
+            app:iconGravity="textStart"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="4dp"
+            android:id="@+id/saveButton"
+            android:contentDescription="@string/folder_save_button_description"/>
+</LinearLayout>

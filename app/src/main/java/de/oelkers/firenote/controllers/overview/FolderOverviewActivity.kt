@@ -4,12 +4,17 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.core.view.children
+import androidx.core.view.size
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -18,6 +23,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import de.oelkers.firenote.R
 import de.oelkers.firenote.controllers.detail.ARG_NOTE
 import de.oelkers.firenote.controllers.detail.NoteDetailsActivity
+import de.oelkers.firenote.controllers.folder.edit.EditFolderFragment
 import de.oelkers.firenote.models.Folder
 import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.persistence.FolderRepository
@@ -45,6 +51,10 @@ class FolderOverviewActivity : AppBarActivity() {
         viewModel.allFolders.observe(this) { viewPager.adapter!!.notifyDataSetChanged() }
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = viewModel.allFolders.value!![position].name
+            tab.view.setOnLongClickListener {
+                EditFolderFragment.newInstance(position).show(supportFragmentManager, "editFolder")
+                true
+            }
         }.attach()
     }
 
@@ -85,7 +95,7 @@ class FolderOverviewActivity : AppBarActivity() {
     }
 
     private fun onNewFolderClick() {
-        viewModel.addFolder(Folder("Hello Folder"))
+        EditFolderFragment.newInstance().show(supportFragmentManager, "editFolder")
     }
 
     private fun onDetailsFinish(result: ActivityResult) {

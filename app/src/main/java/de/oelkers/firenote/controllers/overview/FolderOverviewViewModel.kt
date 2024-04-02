@@ -41,6 +41,11 @@ class FolderOverviewViewModel(repository: FolderRepository) : ViewModel() {
         perform { it.add(folder) }
     }
 
+    fun deleteFolder(index: Int) {
+        getViewModelFor(index).deactivate()
+        perform { it.removeAt(index) }
+    }
+
     fun updateFolder(folder: Folder, index: Int) {
         perform { it[index] = folder }
     }

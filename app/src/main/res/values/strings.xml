@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">FireNote</string>
     <string name="new_note_button_description">Create a new note</string>
-    <string name="delete_button_description">Delete this note</string>
+    <string name="note_delete_button_description">Delete this note</string>
     <string name="alarm_button_description">Set an alarm</string>
-    <string name="save_button_description">Save this note</string>
+    <string name="note_save_button_description">Save this note</string>
     <string name="record_button_description">Record a voice message</string>
     <string name="play_button_description">Play this voice message</string>
     <string name="settings">Settings</string>
@@ -14,4 +14,7 @@
     <string name="title_hint">Title</string>
     <string name="search_title">Search</string>
     <string name="search_notes_hint">Search in titles or content</string>
+    <string name="folder_name_hint">Name</string>
+    <string name="folder_delete_button_description">Delete this folder</string>
+    <string name="folder_save_button_description">Save this folder</string>
 </resources>

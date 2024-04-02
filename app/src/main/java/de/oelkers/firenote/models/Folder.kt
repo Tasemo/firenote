@@ -5,7 +5,7 @@ import android.os.Parcelable
 import java.io.Serializable
 
 data class Folder(
-    var name: String,
+    var name: String? = null,
     val notes: MutableList<Note> = ArrayList(),
 ) : Serializable, Parcelable {
 
