@@ -11,7 +11,7 @@ import java.util.*
 
 class FolderViewModel(private val folderOverviewViewModel: FolderOverviewViewModel, private val folderIndex: Int) : ViewModel() {
 
-    private val isActive = MutableLiveData<Boolean>(true)
+    private val isActive = MutableLiveData(true)
     private val allFolders = folderOverviewViewModel.allFolders.toggle(isActive)
     val allNotes = allFolders.map { it[folderIndex].notes }
     val filteredNotes = allNotes.filter(folderOverviewViewModel.filterValue, this::filterNotes)
@@ -68,6 +68,10 @@ class FolderViewModel(private val folderOverviewViewModel: FolderOverviewViewMod
 
     fun deactivate() {
         isActive.value = false
+    }
+
+    fun activate() {
+        isActive.value = true
     }
 
     private fun getAllNoteIndex(filteredIndex: Int): Int {

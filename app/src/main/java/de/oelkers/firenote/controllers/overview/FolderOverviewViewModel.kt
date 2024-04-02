@@ -20,20 +20,22 @@ class FolderOverviewViewModel(repository: FolderRepository) : ViewModel() {
         get() = _allFolders
 
     fun getViewModelFor(folder: Int): FolderViewModel {
-        return folderViewModels.getOrPut(folder) {
+        val viewModel = folderViewModels.getOrPut(folder) {
             FolderViewModel(this, folder)
         }
+        viewModel.activate()
+        return viewModel
     }
 
     fun setFilterValue(text: CharSequence?) {
         _filterValue.value = text
     }
 
-    fun isAnySelected(): Boolean {
+    fun isAnyNoteSelected(): Boolean {
         return folderViewModels.values.any(FolderViewModel::isAnySelected)
     }
 
-    fun deleteSelected() {
+    fun deleteSelectedNotes() {
         folderViewModels.values.forEach(FolderViewModel::deleteSelected)
     }
 
@@ -42,8 +44,14 @@ class FolderOverviewViewModel(repository: FolderRepository) : ViewModel() {
     }
 
     fun deleteFolder(index: Int) {
-        getViewModelFor(index).deactivate()
-        perform { it.removeAt(index) }
+        perform {
+            it.removeAt(index)
+            if (it.isEmpty()) {
+                it.add(Folder("Default"))
+            } else {
+                getViewModelFor(index).deactivate()
+            }
+        }
     }
 
     fun updateFolder(folder: Folder, index: Int) {
