@@ -23,6 +23,7 @@ class FolderOverviewViewModel(repository: FolderRepository) : ViewModel() {
         val viewModel = folderViewModels.getOrPut(folder) {
             FolderViewModel(this, folder)
         }
+        viewModel.folderIndex = folder
         viewModel.activate()
         return viewModel
     }
@@ -49,7 +50,12 @@ class FolderOverviewViewModel(repository: FolderRepository) : ViewModel() {
             if (it.isEmpty()) {
                 it.add(Folder("Default"))
             } else {
-                getViewModelFor(index).deactivate()
+                if (index == folderViewModels.size - 1) {
+                    getViewModelFor(index).deactivate()
+                }
+                for (newIndex in index + 1..folderViewModels.size) {
+                    getViewModelFor(newIndex).folderIndex -= 1
+                }
             }
         }
     }

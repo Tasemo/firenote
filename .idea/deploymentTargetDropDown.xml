@@ -2,7 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="FolderOverviewActivityIntegrationTest">
+      <entry key="FolderOverviewFoldersScenarioTests">
         <State />
       </entry>
       <entry key="NoteListActivityIntegrationTest">
@@ -11,7 +11,16 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="testThatItemsCanBeReordered()">
+      <entry key="testThatActiveLastFolderCanBeDeleted()">
+        <State />
+      </entry>
+      <entry key="testThatDefaultFolderIsPresent()">
+        <State />
+      </entry>
+      <entry key="testThatFoldersCanBeRenamed()">
+        <State />
+      </entry>
+      <entry key="testThatPreviousFoldersCanBeDeletedIfMoreAreActive()">
         <State />
       </entry>
     </value>

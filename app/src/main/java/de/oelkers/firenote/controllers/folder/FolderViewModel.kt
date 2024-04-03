@@ -9,7 +9,7 @@ import de.oelkers.firenote.util.filter
 import de.oelkers.firenote.util.toggle
 import java.util.*
 
-class FolderViewModel(private val folderOverviewViewModel: FolderOverviewViewModel, private val folderIndex: Int) : ViewModel() {
+class FolderViewModel(private val folderOverviewViewModel: FolderOverviewViewModel, var folderIndex: Int) : ViewModel() {
 
     private val isActive = MutableLiveData(true)
     private val allFolders = folderOverviewViewModel.allFolders.toggle(isActive)

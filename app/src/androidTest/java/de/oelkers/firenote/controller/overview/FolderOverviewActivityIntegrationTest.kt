@@ -21,7 +21,7 @@ import de.oelkers.firenote.controllers.overview.FolderOverviewViewModel
 import de.oelkers.firenote.models.Folder
 import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.persistence.FolderRepository
-import de.oelkers.firenote.testing.atPosition
+import de.oelkers.firenote.testing.atRecyclerViewPosition
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -82,8 +82,8 @@ class FolderOverviewActivityIntegrationTest {
         launchActivity<FolderOverviewActivity>().use {
             onView(withId(R.id.search_button)).perform(click())
             onView(withId(androidx.appcompat.R.id.search_src_text)).perform(typeText("Test"))
-            onView(withId(R.id.notesView)).check(matches(atPosition(0, hasDescendant(withText("TestTitle")))))
-            onView(withId(R.id.notesView)).check(matches(atPosition(1, hasDescendant(withText("ContentTest")))))
+            onView(withId(R.id.notesView)).check(matches(atRecyclerViewPosition(0, hasDescendant(withText("TestTitle")))))
+            onView(withId(R.id.notesView)).check(matches(atRecyclerViewPosition(1, hasDescendant(withText("ContentTest")))))
             it.onActivity { activity ->
                 val viewModel: FolderOverviewViewModel by activity.viewModels()
                 val folderViewModel = viewModel.getViewModelFor(0)
@@ -95,13 +95,13 @@ class FolderOverviewActivityIntegrationTest {
     }
 
     @Test
-    fun testThatItemsCanBeReordered() {
+    fun testThatNotesCanBeReordered() {
         launchActivity<FolderOverviewActivity>().use {
             val endCoordinates = GeneralLocation.translate(GeneralLocation.CENTER, 0.0f, 1.75f)
             val swipeAction = GeneralSwipeAction(Swipe.SLOW, GeneralLocation.CENTER, endCoordinates, Press.FINGER)
             onView(withId(R.id.notesView)).perform(actionOnItemAtPosition<NoteHolder>(0, swipeAction))
-            onView(withId(R.id.notesView)).check(matches(atPosition(0, hasDescendant(withText("Note2")))))
-            onView(withId(R.id.notesView)).check(matches(atPosition(1, hasDescendant(withText("TestTitle")))))
+            onView(withId(R.id.notesView)).check(matches(atRecyclerViewPosition(0, hasDescendant(withText("Note2")))))
+            onView(withId(R.id.notesView)).check(matches(atRecyclerViewPosition(1, hasDescendant(withText("TestTitle")))))
         }
     }
 }
