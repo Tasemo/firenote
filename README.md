@@ -6,16 +6,17 @@ but also because I´m tired of ad-infested bloatware in the PlayStore.
 ## Features
 
 * Intuitive UI based on Material 3 Design
-* Persists notes on local filesystem
+* Persists notes on local filesystem only
 * Recording and playback of audio notes
 * Set note notifications for specific dates and times
 * Quickly delete multiple notes per long-press
 * Reordering of notes per Drag & Drop
 * Search notes based on title or content
+* Organize notes into user defined folders (work-in-progress)
 
 ## Planned
 
-* Organize notes into user defined folders (work-in-progress)
+* Set custom icons for folders
 * Mark specific notes as favorites
 * Sort notes based on time or title
 * Greater control over notifications (e.g. repeated alarms, custom ringtones)
