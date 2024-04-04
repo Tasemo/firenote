@@ -25,16 +25,16 @@
                 android:layout_weight="1"
                 app:tabMode="scrollable"
                 app:tabGravity="start"
-                app:tabMinWidth="100dp"/>
+                app:tabMinWidth="100dp"
+                app:tabInlineLabel="true"/>
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/new_folder_button"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:icon="@android:drawable/ic_input_add"
+                app:icon="@drawable/create_new_folder_fill0_wght400_grad0_opsz24"
                 app:iconSize="24dp"
-                app:iconTint="@color/colorPrimary"
                 app:iconPadding="0dp"
                 app:iconGravity="textStart"/>
 

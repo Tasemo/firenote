@@ -23,6 +23,18 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
+            app:icon="@drawable/add_reaction_fill0_wght300_grad0_opsz24"
+            app:iconTint="#FFFFFF"
+            app:iconSize="30dp"
+            app:iconPadding="0dp"
+            app:iconGravity="textStart"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="4dp"
+            android:id="@+id/editIconButton"
+            android:contentDescription="@string/folder_edit_icon_button_description"/>
+
+    <com.google.android.material.button.MaterialButton
             app:icon="@android:drawable/ic_menu_delete"
             app:iconTint="@null"
             app:iconSize="30dp"

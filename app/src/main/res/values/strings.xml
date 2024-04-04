@@ -17,4 +17,5 @@
     <string name="folder_name_hint">Name</string>
     <string name="folder_delete_button_description">Delete this folder</string>
     <string name="folder_save_button_description">Save this folder</string>
+    <string name="folder_edit_icon_button_description">Set the folder icon</string>
 </resources>

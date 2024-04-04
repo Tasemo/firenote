@@ -19,9 +19,11 @@ import de.oelkers.firenote.R
 import de.oelkers.firenote.controllers.detail.ARG_NOTE
 import de.oelkers.firenote.controllers.detail.NoteDetailsActivity
 import de.oelkers.firenote.controllers.folder.edit.EditFolderFragment
+import de.oelkers.firenote.models.NO_ICON_ID
 import de.oelkers.firenote.models.Note
 import de.oelkers.firenote.persistence.FolderRepository
 import de.oelkers.firenote.util.AppBarActivity
+import de.oelkers.firenote.util.GlobalAppState
 
 class FolderOverviewActivity : AppBarActivity() {
 
@@ -44,7 +46,11 @@ class FolderOverviewActivity : AppBarActivity() {
         viewPager.adapter = FolderAdapter(this, viewModel)
         viewModel.allFolders.observe(this) { viewPager.adapter!!.notifyDataSetChanged() }
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = viewModel.allFolders.value!![position].name
+            val folder = viewModel.allFolders.value!![position]
+            tab.text = folder.name
+            if (folder.iconId != NO_ICON_ID) {
+                tab.icon = (application as GlobalAppState).iconPack.getIcon(folder.iconId)!!.drawable
+            }
             tab.view.setOnLongClickListener {
                 EditFolderFragment.newInstance(position).show(supportFragmentManager, "editFolder")
                 true

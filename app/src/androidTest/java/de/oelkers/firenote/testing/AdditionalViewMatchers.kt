@@ -32,3 +32,29 @@ fun atTabLayoutPosition(position: Int): Matcher<View> {
         }
     }
 }
+
+fun atTabLayoutPosition(position: Int, itemMatcher: Matcher<TabLayout.Tab>): Matcher<View> {
+    return object : BoundedMatcher<View, TabLayout>(TabLayout::class.java) {
+        override fun describeTo(description: Description) {
+            description.appendText("has item at position $position: ")
+            itemMatcher.describeTo(description)
+        }
+
+        override fun matchesSafely(view: TabLayout): Boolean {
+            val tab = view.getTabAt(position) ?: return false
+            return itemMatcher.matches(tab)
+        }
+    }
+}
+
+fun hasAnyIcon(): Matcher<TabLayout.Tab> {
+    return object : BoundedMatcher<TabLayout.Tab, TabLayout.Tab>(TabLayout.Tab::class.java) {
+        override fun describeTo(description: Description) {
+            description.appendText("has any icon")
+        }
+
+        override fun matchesSafely(item: TabLayout.Tab): Boolean {
+            return item.icon != null
+        }
+    }
+}

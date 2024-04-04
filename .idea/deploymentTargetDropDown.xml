@@ -2,6 +2,12 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="All Tests">
+        <State />
+      </entry>
+      <entry key="FolderOverviewActivityIntegrationTest">
+        <State />
+      </entry>
       <entry key="FolderOverviewFoldersScenarioTests">
         <State />
       </entry>
@@ -11,13 +17,7 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="testThatActiveLastFolderCanBeDeleted()">
-        <State />
-      </entry>
-      <entry key="testThatDefaultFolderIsPresent()">
-        <State />
-      </entry>
-      <entry key="testThatFoldersCanBeRenamed()">
+      <entry key="testThatFolderIconCanBeSet()">
         <State />
       </entry>
       <entry key="testThatPreviousFoldersCanBeDeletedIfMoreAreActive()">

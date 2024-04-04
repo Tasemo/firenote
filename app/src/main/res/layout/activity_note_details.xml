@@ -37,18 +37,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                    app:icon="@android:drawable/ic_menu_delete"
-                    app:iconTint="@null"
-                    app:iconSize="30dp"
-                    app:iconPadding="0dp"
-                    app:iconGravity="textStart"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_margin="4dp"
-                    android:id="@+id/deleteButton"
-                    android:contentDescription="@string/note_delete_button_description"/>
-
-            <com.google.android.material.button.MaterialButton
                     app:icon="@android:drawable/ic_lock_idle_alarm"
                     app:iconTint="@null"
                     app:iconSize="24dp"
@@ -59,6 +47,18 @@
                     android:layout_margin="4dp"
                     android:id="@+id/alarmButton"
                     android:contentDescription="@string/alarm_button_description"/>
+
+            <com.google.android.material.button.MaterialButton
+                    app:icon="@android:drawable/ic_menu_delete"
+                    app:iconTint="@null"
+                    app:iconSize="30dp"
+                    app:iconPadding="0dp"
+                    app:iconGravity="textStart"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="4dp"
+                    android:id="@+id/deleteButton"
+                    android:contentDescription="@string/note_delete_button_description"/>
 
             <com.google.android.material.button.MaterialButton
                     app:icon="@android:drawable/ic_menu_save"

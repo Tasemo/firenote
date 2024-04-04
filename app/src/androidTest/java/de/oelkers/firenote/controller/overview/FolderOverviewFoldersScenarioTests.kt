@@ -1,14 +1,17 @@
 package de.oelkers.firenote.controller.overview
 
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.oelkers.firenote.R
 import de.oelkers.firenote.controllers.overview.FolderOverviewActivity
 import de.oelkers.firenote.testing.atTabLayoutPosition
+import de.oelkers.firenote.testing.hasAnyIcon
 import de.oelkers.firenote.testing.scrollRight
 import org.hamcrest.CoreMatchers.not
 import org.junit.Test
@@ -72,6 +75,18 @@ class FolderOverviewFoldersScenarioTests {
             onView(atTabLayoutPosition(0)).perform(longClick())
             onView(withId(R.id.deleteButton)).perform(click())
             onView(withId(R.id.tab_layout)).check(matches(not(hasDescendant(withText("Default")))))
+        }
+    }
+
+    @Test
+    fun testThatFolderIconCanBeSet() {
+        launchActivity<FolderOverviewActivity>().use {
+            onView(atTabLayoutPosition(0)).perform(longClick())
+            onView(withId(R.id.editIconButton)).perform(click())
+            onView(withId(com.maltaisn.icondialog.R.id.icd_rcv_icon_list)).perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
+            onView(withId(com.maltaisn.icondialog.R.id.icd_btn_select)).perform(click())
+            onView(withId(R.id.saveButton)).perform(click())
+            onView(withId(R.id.tab_layout)).check(matches(atTabLayoutPosition(0, hasAnyIcon())))
         }
     }
 }

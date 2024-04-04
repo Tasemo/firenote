@@ -38,7 +38,7 @@ class FolderOverviewActivityIntegrationTest {
     fun setupDefaultData() {
         val repository = FolderRepository(InstrumentationRegistry.getInstrumentation().targetContext)
         notes = mutableListOf(Note("Note1", title = "TestTitle"), Note("Note2", title = "Note2"), Note("Note3", content = "ContentTest"))
-        folders = mutableListOf(Folder("Folder1", notes))
+        folders = mutableListOf(Folder("Folder1", notes = notes))
         repository.saveAllFolders(folders)
     }
 

@@ -15,7 +15,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import de.oelkers.firenote.R
-import de.oelkers.firenote.controllers.detail.*
+import de.oelkers.firenote.controllers.detail.ARG_NOTE
+import de.oelkers.firenote.controllers.detail.NoteDetailsActivity
+import de.oelkers.firenote.controllers.detail.RESULT_DELETED
 import de.oelkers.firenote.controllers.overview.FolderOverviewViewModel
 import de.oelkers.firenote.models.Note
 
